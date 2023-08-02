@@ -60,15 +60,15 @@ export default function HomePage() {
   };
 
   return (
-    <div>
+    <div className="mb-20">
       <Tabs
         defaultValue="pomodoro"
         className="w-[400px] mx-auto mt-20 flex flex-col"
       >
         <TabsList className="self-center">
-          <TabsTrigger value="pomodoro">Pomodoro</TabsTrigger>
-          <TabsTrigger value="shortBreak">Short break</TabsTrigger>
-          <TabsTrigger value="longBreak">Long Break</TabsTrigger>
+          <TabsTrigger value="pomodoro" onClick={()=> setSeconds(pomodoro)}>Pomodoro</TabsTrigger>
+          <TabsTrigger value="shortBreak" onClick={()=> setSeconds(shortBreak)}>Short break</TabsTrigger>
+          <TabsTrigger value="longBreak" onClick={()=> setSeconds(pomodoro)}>Long Break</TabsTrigger>
         </TabsList>
         <TabsContent value="pomodoro">
           <Card className="w-[400px] py-10 flex flex-col justify-center">
@@ -128,7 +128,7 @@ export default function HomePage() {
       </Tabs>
 
       {/* Contribution grid */}
-      <div className="flex gap-10 mt-20 justify-center">
+      <div className="flex flex-wrap gap-10 mt-20 justify-center">
       <ContributionGrid />
       <ContributionGrid />
       </div>
