@@ -1,14 +1,15 @@
 
-import { React, useState } from "react"
+import React, {useState } from "react"
 import { Calendar } from "../../components/ui/calendar"
-
-
+import { format } from 'date-fns';
 export default function ContributionGrid () {
-    // const [date, setDate] = React.useState<Date | undefined>(new Date())
+
+    // const [date, setDate] = useState<Date | undefined>(today);
 
     return (
       <Calendar
-        mode="single"
+       
+        // selected={new Date(2023, 5, 8)}
         // selected={date}
         // onSelect={setDate}
         className="rounded-md border"
