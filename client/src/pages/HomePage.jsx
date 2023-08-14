@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { Button } from "../../components/ui/button";
 import ContributionGrid from "../components/ContributionGrid";
 import CalendarHeatmap from "react-calendar-heatmap";
-import "react-calendar-heatmap/dist/styles.css";
+// import "react-calendar-heatmap/dist/styles.css" ;
+import '../../styles/style.css';
 import Test from "./Test.jsx";
 import {
   Card,
@@ -171,15 +172,13 @@ export default function HomePage() {
       </Tabs>
 
       <Dialog>
-        <DialogTrigger>
+        <DialogTrigger
+            className={`mt-10 w-1/5 self-center border py-2 px-4 border-1 rounded-md hover:bg-gray-100 `}>
           {" "}
-          <Button
-            variant="outline"
-            className={`mt-10 w-1/5 self-center`}
-            onClick={() => handleNewHabit}
-          >
+          
+            {/* variant="outline"
+            className={`mt-10 w-1/5 self-center`} */}
             View Heatmap
-          </Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
@@ -198,6 +197,10 @@ export default function HomePage() {
           />
         </DialogContent>
       </Dialog>
+
+   
+        <iframe className="mt-10 mx-auto rounded-lg max-w-md" src="https://open.spotify.com/embed/playlist/0vvXsWCC9xrXsKd4FyS8kM?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowFullScreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      
     </div>
   );
 }
