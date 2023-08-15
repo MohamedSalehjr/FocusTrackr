@@ -70,3 +70,16 @@
   .react-calendar-heatmap .color-gitlab-4 {
     fill: #254e77;
   }
+
+
+  ion-icon{
+    /* margin-top: 1px; */
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  .completed{
+    text-decoration: line-through;
+    color: #94A3B8;
+    
+  }

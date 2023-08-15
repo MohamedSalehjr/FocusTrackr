@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { Button } from "../../components/ui/button";
 import ContributionGrid from "../components/ContributionGrid";
-import CalendarHeatmap from "react-calendar-heatmap";
+// import CalendarHeatmap from "react-calendar-heatmap";
+import TodoWrapper from "../components/TodoWrapper";
+
 // import "react-calendar-heatmap/dist/styles.css" ;
 import '../../styles/style.css';
 import Test from "./Test.jsx";
@@ -81,7 +83,7 @@ export default function HomePage() {
   const handleNewHabit = () => {};
 
   return (
-    <div className="mb-20 flex flex-col">
+    <div className="mb-20 flex flex-col items-center">
       <Tabs
         defaultValue="pomodoro"
         className="w-[400px] mx-auto mt-20 flex flex-col"
@@ -170,14 +172,12 @@ export default function HomePage() {
           </Card>
         </TabsContent>
       </Tabs>
-
+{/* 
       <Dialog>
         <DialogTrigger
             className={`mt-10 w-1/5 self-center border py-2 px-4 border-1 rounded-md hover:bg-gray-100 `}>
           {" "}
           
-            {/* variant="outline"
-            className={`mt-10 w-1/5 self-center`} */}
             View Heatmap
         </DialogTrigger>
         <DialogContent>
@@ -192,11 +192,12 @@ export default function HomePage() {
               { date: "2023-01-01", count: 12 },
               { date: "2023-01-22", count: 122 },
               { date: "2023-01-30", count: 38 },
-              // ...and so on
             ]}
           />
         </DialogContent>
-      </Dialog>
+      </Dialog> */}
+
+      <TodoWrapper />
 
    
         <iframe className="mt-10 mx-auto rounded-lg max-w-md" src="https://open.spotify.com/embed/playlist/0vvXsWCC9xrXsKd4FyS8kM?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowFullScreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
