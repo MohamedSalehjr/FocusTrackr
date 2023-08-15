@@ -12,9 +12,9 @@ import { Checkbox } from "../../components/ui/checkbox";
 
 const Todo = ({ task, toggleComplete,deleteTodo}) => {
   return (
-    <Card className="todo w-full  flex space-x-20 justify-center px-4 py-4 mt-6">
+    <Card className="todo w-full  flex flex-wrap items-center justify-between px-4 py-4 mt-6">
 
-      <CardContent onClick={() => toggleComplete(task.id)} className={`${task.completed ? "completed" : ""} cursor-pointer`}>
+      <CardContent onClick={() => toggleComplete(task.id)} className={`${task.completed ? "completed" : ""} cursor-pointer `}>
         <p>{task.task}</p>
       </CardContent>
       <div className="flex gap-2">
