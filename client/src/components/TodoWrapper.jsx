@@ -1,6 +1,6 @@
 import React from 'react'
 import TodoForm from "./TodoForm"
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import {v4 as uuidv4} from 'uuid'
 import Todo from './Todo'
 
@@ -23,6 +23,10 @@ const TodoWrapper = () => {
     const deleteTodo = (id) => {
         setTodos(todos.filter(todo => todo.id !== id))
     }
+
+    useEffect(() => {
+        localStorage.setItem('dataKey', JSON.stringify(todos));
+      }, [todos]);
   return (
     <div className="TodoWrapper mt-10">
 

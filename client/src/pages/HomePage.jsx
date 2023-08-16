@@ -3,7 +3,8 @@ import { Button } from "../../components/ui/button";
 import ContributionGrid from "../components/ContributionGrid";
 // import CalendarHeatmap from "react-calendar-heatmap";
 import TodoWrapper from "../components/TodoWrapper";
-
+import useSound from "use-sound";
+import Alarm from "../assets/alarmSound.wav"
 // import "react-calendar-heatmap/dist/styles.css" ;
 import '../../styles/style.css';
 import Test from "./Test.jsx";
@@ -39,12 +40,15 @@ import {
 } from "../../components/ui/dialog";
 
 export default function HomePage() {
-  const [pomodoro, setPomodoro] = useState(1500);
+  const [pomodoro, setPomodoro] = useState(3);
   const [shortBreak, setshortBreak] = useState(300);
   const [longBreak, setlongBreak] = useState(900);
 
   const [seconds, setSeconds] = useState(1500);
   const [isActive, setIsActive] = useState(false);
+  const [backupSeconds, setBackupSeconds] = useState()
+
+  const [play, {stop}] = useSound(Alarm)
 
   let hidden = isActive ? "block" : "hidden";
 
@@ -56,6 +60,8 @@ export default function HomePage() {
         setSeconds((prevSeconds) => prevSeconds - 1);
       }, 1000);
     } else if (seconds === 0) {
+        play()
+        handleStopTimer(backupSeconds)
       setIsActive(false);
     }
 
@@ -64,6 +70,7 @@ export default function HomePage() {
 
   const handleStartTimer = (time) => {
     setSeconds(time);
+    setBackupSeconds(time)
     setIsActive(true);
   };
 
