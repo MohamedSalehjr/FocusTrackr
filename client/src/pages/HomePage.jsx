@@ -1,6 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+
 import { Button } from "../../components/ui/button";
 import ContributionGrid from "../components/ContributionGrid";
+import PomodoroContext, { PomodoroProvider } from "../PomodoroContext.jsx";
 // import CalendarHeatmap from "react-calendar-heatmap";
 import TodoWrapper from "../components/TodoWrapper";
 import useSound from "use-sound";
@@ -39,16 +41,28 @@ import {
   DialogTrigger,
 } from "../../components/ui/dialog";
 
+
+export const formatTime = (timeInSeconds) => {
+    const minutes = Math.floor(timeInSeconds / 60);
+    const seconds = timeInSeconds % 60;
+    return `${minutes.toString().padStart(2, "0")}:${seconds
+      .toString()
+      .padStart(2, "0")}`;
+  };
+
 export default function HomePage() {
-  const [pomodoro, setPomodoro] = useState(3);
-  const [shortBreak, setshortBreak] = useState(300);
-  const [longBreak, setlongBreak] = useState(900);
+//   const [pomodoro, setPomodoro] = useState(1500);
+//   const [shortBreak, setshortBreak] = useState(300);
+//   const [longBreak, setlongBreak] = useState(900);
+
+const { pomodoro, shortBreak, longBreak} = useContext(PomodoroContext);
 
   const [seconds, setSeconds] = useState(1500);
   const [isActive, setIsActive] = useState(false);
   const [backupSeconds, setBackupSeconds] = useState()
 
   const [play, {stop}] = useSound(Alarm)
+
 
   let hidden = isActive ? "block" : "hidden";
 
@@ -79,13 +93,7 @@ export default function HomePage() {
     setSeconds(time);
   };
 
-  const formatTime = (timeInSeconds) => {
-    const minutes = Math.floor(timeInSeconds / 60);
-    const seconds = timeInSeconds % 60;
-    return `${minutes.toString().padStart(2, "0")}:${seconds
-      .toString()
-      .padStart(2, "0")}`;
-  };
+
 
   const handleNewHabit = () => {};
 

@@ -1,50 +1,98 @@
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { PomodoroContext } from "../PomodoroContext.jsx";
+import { formatTime } from "../pages/HomePage.jsx";
 // import "../../styles/style.css"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../../components/ui/dialog";
 
 export default function Nav() {
+
+  const { pomodoro, shortBreak, longBreak,changePomodoro, changeShortBreak, changeLongBreak } = useContext(PomodoroContext);
+  
+
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+      <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4">
         <Link to="/" className="flex items-center">
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
             FocusTrackr
           </span>
         </Link>
-        <button
-          data-collapse-toggle="navbar-default"
-          type="button"
-          className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-          aria-controls="navbar-default"
-          aria-expanded="false"
-        >
-          <span className="sr-only">Open main menu</span>
-          <svg
-            className="w-5 h-5"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 17 14"
+        <div className="flex items-center gap-4">
+          <Link
+            to="/login"
+            className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0  "
           >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M1 1h15M1 7h15M1 13h15"
-            />
-          </svg>
-        </button>
-        <div className="hidden w-full md:block md:w-auto" id="navbar-default">
-          <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-            <li>
-              <Link
-                to="/login"
-                className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0  "
-              >
-                Login
-              </Link>
-            </li>
-          </ul>
+            Login
+          </Link>
+          
+          <Dialog>
+            <DialogTrigger className="mt-2">
+              <ion-icon name="settings-outline"></ion-icon>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Settings</DialogTitle>
+                <form className="w-full max-w-lg ">
+                  <div className="flex flex-wrap -mx-3 mb-6 mt-4">
+                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                      <label
+                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                        for="grid-first-name"
+                      >
+                        Pomodoro
+                      </label>
+                      <input
+                        className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                        id="grid-first-name"
+                        type="number"
+                        placeholder={formatTime(pomodoro)}
+                        onChange={(e) => changePomodoro(e.target.value)}
+                      />
+                    
+                    </div>
+                    <div class="w-full md:w-1/3 px-3">
+                      <label
+                        class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                        for="grid-last-name"
+                      >
+                        Short Break
+                      </label>
+                      <input
+                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        id="grid-last-name"
+                        type="number"
+                        placeholder={formatTime(shortBreak)}
+                        onChange={(e) => changeShortBreak(e.target.value)}
+                      />
+                    </div>
+                    <div class="w-full md:w-1/3 px-3">
+                      <label
+                        class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                        for="grid-last-name"
+                      >
+                        Long Break
+                      </label>
+                      <input
+                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        id="grid-last-name"
+                        type="number"
+                        placeholder={formatTime(longBreak)}
+                        onChange={(e) => changeLongBreak(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                </form>
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
     </nav>
