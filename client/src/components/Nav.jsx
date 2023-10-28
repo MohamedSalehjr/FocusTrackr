@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { PomodoroContext } from "../PomodoroContext.jsx";
 import { formatTime } from "../pages/HomePage.jsx";
+import Report from "./Report.jsx";
 // import "../../styles/style.css"
 import {
   Dialog,
@@ -32,6 +33,10 @@ export default function Nav() {
           >
             Login
           </Link>
+
+          <div>
+            <Report/>
+          </div>
           
           <Dialog>
             <DialogTrigger className="mt-2">

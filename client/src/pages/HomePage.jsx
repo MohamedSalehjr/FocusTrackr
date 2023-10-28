@@ -3,11 +3,11 @@ import { useState, useEffect, useContext } from "react";
 import { Button } from "../../components/ui/button";
 import ContributionGrid from "../components/ContributionGrid";
 import PomodoroContext, { PomodoroProvider } from "../PomodoroContext.jsx";
-// import CalendarHeatmap from "react-calendar-heatmap";
+
 import TodoWrapper from "../components/TodoWrapper";
 import useSound from "use-sound";
 import Alarm from "../assets/alarmSound.wav"
-// import "react-calendar-heatmap/dist/styles.css" ;
+
 import '../../styles/style.css';
 import Test from "./Test.jsx";
 import {
@@ -57,6 +57,13 @@ export default function HomePage() {
 
 const { pomodoro, shortBreak, longBreak} = useContext(PomodoroContext);
 
+    // const current = new Date();
+
+    // console.log(
+    // `${current.getFullYear()}-${current.getMonth()}-${current.getDate()}`
+    // );
+  
+
   const [seconds, setSeconds] = useState(1500);
   const [isActive, setIsActive] = useState(false);
   const [backupSeconds, setBackupSeconds] = useState()
@@ -93,9 +100,6 @@ const { pomodoro, shortBreak, longBreak} = useContext(PomodoroContext);
     setSeconds(time);
   };
 
-
-
-  const handleNewHabit = () => {};
 
   return (
     <div className="mb-20 flex flex-col items-center">
@@ -187,35 +191,10 @@ const { pomodoro, shortBreak, longBreak} = useContext(PomodoroContext);
           </Card>
         </TabsContent>
       </Tabs>
-{/* 
-      <Dialog>
-        <DialogTrigger
-            className={`mt-10 w-1/5 self-center border py-2 px-4 border-1 rounded-md hover:bg-gray-100 `}>
-          {" "}
-          
-            View Heatmap
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Heatmap</DialogTitle>
-          </DialogHeader>
-          <CalendarHeatmap
-            className=""
-            startDate={new Date("2023-01-01")}
-            endDate={new Date("2023-12-30")}
-            values={[
-              { date: "2023-01-01", count: 12 },
-              { date: "2023-01-22", count: 122 },
-              { date: "2023-01-30", count: 38 },
-            ]}
-          />
-        </DialogContent>
-      </Dialog> */}
-
       <TodoWrapper />
 
    
-        <iframe className="mt-10 mx-auto rounded-lg max-w-md" src="https://open.spotify.com/embed/playlist/0vvXsWCC9xrXsKd4FyS8kM?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowFullScreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        {/* <iframe className="mt-10 mx-auto rounded-lg max-w-md" src="https://open.spotify.com/embed/playlist/0vvXsWCC9xrXsKd4FyS8kM?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowFullScreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe> */}
       
     </div>
   );
