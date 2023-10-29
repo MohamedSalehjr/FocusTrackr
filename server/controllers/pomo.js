@@ -1,7 +1,5 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-
-const router = express.Router();
+const HttpError = require('../models/http-error');
+const bodyParser = require('body-parser'); 
 
 const Dummy = [
     {creator: 'u1',
@@ -10,32 +8,27 @@ const Dummy = [
         { date: "2023-01-22", count: 2 },
         { date: "2023-01-30", count: 3 }],
     hours: 1,
-    id: "p1"
-}
+}]
 
-]
 
-router.get('/:pid', (req,res, next) => {
+const getPomoById = (req,res, next) => {
     const pomoId = req.params.pid; // {id: u1}  
     const pomo = Dummy.find( p => { 
         return p.creator === pomoId
     })
 
     if(!pomo){
-        
+        throw new HttpError('Could not find pomo records for the provided id', 404)
+  
     } else {
         res.json({dates: pomo.dates, hours: pomo.hours})
     }
 
     
-})
+}
 
 
-// Post request when a pomodoro is completed 
-/*
-- For someones intial creation of a pomodoro
-*/
-router.post('/:pid', (req, res, next) => {
+const postIntialPomo = (req, res, next) => {
     const { date, count, length, creator } = req.body
 
     const createdPomo = {
@@ -45,18 +38,16 @@ router.post('/:pid', (req, res, next) => {
     }
     Dummy.push(createdPomo)
     res.status(201).json(createdPomo)
-})
+}
 
-//Patch Request
-
-router.patch('/:pid', (req, res, next) => {
+const patchPomoByDate = (req, res, next) => {
     const { date, length} = req.body
 
-    const userId = req.params.uid
+    const pomoId = req.params.pid
 
-    const updatePomo = {...Dummy.find( u => u.creator === userId)}
+    const updatePomo = {...Dummy.find( p => p.creator === pomoId)}
 
-    const pomoIndex = Dummy.findIndex( p => p.creator === userId)
+    const pomoIndex = Dummy.findIndex( p => p.creator === pomoId)
 
     const updateCount = updatePomo.dates.find( d => d.date === date)
     updateCount.count += 1
@@ -66,9 +57,8 @@ router.patch('/:pid', (req, res, next) => {
     Dummy[pomoIndex] = updatePomo
 
     res.status(200).json({pomo: updatePomo})
-})
+}
 
-module.exports = router;
-
-
-//For future projects use MVC structure so have routes in one file and controllers aka the logic in another file
+exports.getPomoById = getPomoById
+exports.postIntialPomo = postIntialPomo;
+exports.patchPomoByDate = patchPomoByDate
