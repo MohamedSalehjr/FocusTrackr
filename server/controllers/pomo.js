@@ -1,5 +1,7 @@
 const HttpError = require('../models/http-error');
 const bodyParser = require('body-parser'); 
+const {validationResult} = require('express-validator')
+
 
 const Dummy = [
     {creator: 'u1',
@@ -29,6 +31,12 @@ const getPomoById = (req,res, next) => {
 
 
 const postIntialPomo = (req, res, next) => {
+    
+    const errors = validationResult(req)
+    if (!errors.isEmpty()){
+        throw new HttpError("Invalid inputs passed", 422)
+    }
+
     const { date, count, length, creator } = req.body
 
     const createdPomo = {
