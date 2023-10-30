@@ -1,70 +1,104 @@
 const HttpError = require('../models/http-error');
 const bodyParser = require('body-parser'); 
 const {validationResult} = require('express-validator')
+const Pomo = require('../models/pomo');
 
 
-const Dummy = [
-    {creator: 'u1',
-    dates: [
-        { date: "2023-01-01", count: 1 },
-        { date: "2023-01-22", count: 2 },
-        { date: "2023-01-30", count: 3 }],
-    hours: 1,
-}]
+// const Dummy = [
+//     {creator: 'u1',
+//     dates: [
+//         { date: "2023-01-01", count: 1 },
+//         { date: "2023-01-22", count: 2 },
+//         { date: "2023-01-30", count: 3 }],
+//     hours: 1,
+// }]
 
 
-const getPomoById = (req,res, next) => {
+const getPomoById = async (req,res, next) => {
     const pomoId = req.params.pid; // {id: u1}  
-    const pomo = Dummy.find( p => { 
-        return p.creator === pomoId
-    })
+
+    let pomo;
+    try {
+        pomo = await Pomo.find({creator: pomoId});
+    
+        console.log(pomo[0].hours)
+        
+    } catch (error) {
+        const err = new HttpError("Something went wrong could not find pomo", 500)
+        return next(err)
+    }
 
     if(!pomo){
-        throw new HttpError('Could not find pomo records for the provided id', 404)
-  
+        const error = new HttpError('Could not find pomo records for the provided id', 404)
+        return next(error)
     } else {
-        res.json({dates: pomo.dates, hours: pomo.hours})
+        res.json({pomo: pomo.map(pomo => pomo.toObject({getters:true}))})
     }
 
     
 }
 
 
-const postIntialPomo = (req, res, next) => {
-    
+const postIntialPomo = async (req, res, next) => {
+
     const errors = validationResult(req)
     if (!errors.isEmpty()){
         throw new HttpError("Invalid inputs passed", 422)
     }
 
-    const { date, count, length, creator } = req.body
+    const { date, hours, creator } = req.body
 
-    const createdPomo = {
+    const createdPomo = new Pomo({
         creator,
-        dates: [{date: date, count: count}],
-        hours: length,
+        hours,
+        dates: [{date:date, count: 1}]
+    })
+    try {
+        
+        await createdPomo.save()
+    } catch (error) {
+        const err = new HttpError(
+            'creating inital pomo document failed', 500
+        )
+        return next(err)
     }
-    Dummy.push(createdPomo)
     res.status(201).json(createdPomo)
 }
 
-const patchPomoByDate = (req, res, next) => {
+const patchPomoByDate = async (req, res, next) => {
     const { date, length} = req.body
 
     const pomoId = req.params.pid
 
-    const updatePomo = {...Dummy.find( p => p.creator === pomoId)}
 
-    const pomoIndex = Dummy.findIndex( p => p.creator === pomoId)
+    let pomo;
+    try {
+        pomo = await Pomo.findById(pomoId);
+    } catch (error) {
+        const err = new HttpError("Something went wrong could not find pomo", 500)
+        return next(err)
+    }
 
-    const updateCount = updatePomo.dates.find( d => d.date === date)
-    updateCount.count += 1
+    // let pomoDatesArray = pomo[0].dates;
+    // let dateObject = pomoDatesArray.find((d) => d.date === '2023-01-01')
+    // const updateCount = dateObject.count
+    const newhours = pomo.hours + length
+    console.log(newhours)
+    pomo.hours = newhours
+   
+    const dateObject =  pomo.dates.find((d) => d.date === date)
 
-    updatePomo.hours += 1
+    dateObject.count += 1
 
-    Dummy[pomoIndex] = updatePomo
 
-    res.status(200).json({pomo: updatePomo})
+    try {
+        await pomo.save()
+    } catch (err) {
+        const error = new HttpError("could not update pomo`", 500)
+        return next(error)
+    }
+
+    res.json({pomo: pomo.toObject({getters: true})})
 }
 
 exports.getPomoById = getPomoById

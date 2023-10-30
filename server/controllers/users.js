@@ -1,34 +1,44 @@
 const HttpError =require("../models/http-error")
-
-const DUMMY_USERS = [
-    { name: 'mohamed saleh',
-    id: "u1",
-    email : "testing@gmail.com",
-    password: "testing"
-}
-]
+const User = require("../models/users")
 
 
-const getUsers = (req, res, next) => {
-res.json({users: DUMMY_USERS})
-}
 
 
-const signup = (req, res, next) => {
-    const {name, email, password } = req.body;
+const getUsers = async (req, res, next) => {
+    const userId = req.params.uid;
 
-    const hasUser = DUMMY_USERS.find(u => u.email === email);
-    if(hasUser) {
-        throw new HttpError("Could not create user, email already exists", 422)
+    let user;
+    try {
+         user = await User.find({creator:userId});
+    } catch (error) {
+        const err = new HttpError("could not find user", 500)
+        return next(err)
     }
 
-    const createdUser = {
-        id: Math.random() * 100,
+    res.json({user: user.map(user => user.toObject({getters:true}))})
+}
+
+
+const signup = async (req, res, next) => {
+    const {creator, name, email, password } = req.body;
+
+    // const hasUser = DUMMY_USERS.find(u => u.email === email);
+    // if(hasUser) {
+    //     throw new HttpError("Could not create user, email already exists", 422)
+    // }
+
+    const createdUser = new User({
         name,
         email,
-        password
+        password,
+        creator
+    })
+    try {
+       await createdUser.save() 
+    } catch (error) {
+        const err = new HttpError("Could not create user", 500)
+        next(err)
     }
-    DUMMY_USERS.push(createdUser)
     res.status(201).json({user: createdUser})
 }
 
