@@ -1,7 +1,8 @@
 const express = require('express')
-const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const HttpError = require('./models/http-error')
+const mongoose = require('mongoose')
+require('dotenv').config();
 
 const api = require('./routes/pomo-routes')
 const usersRoutes = require('./routes/user-routes')
@@ -27,6 +28,12 @@ app.use((error, req, res, next) => {
   res.json({message: error.message || 'An unknown error occurred!'})
 })
 
-app.listen(port, () => {
+mongoose.connect(`mongodb+srv://mohamedsalehjr:${process.env.DATABASE_PASS}@pomoapi.l4tohfu.mongodb.net/?retryWrites=true&w=majority`).then(() => {
+  app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
   })
+}).catch(err => {
+  console.log(err)
+})
+
+
