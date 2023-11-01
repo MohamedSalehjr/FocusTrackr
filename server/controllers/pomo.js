@@ -19,7 +19,7 @@ const getPomoById = async (req,res, next) => {
 
     let pomo;
     try {
-        pomo = await Pomo.find({creator: pomoId});
+        pomo = await Pomo.find({email: pomoId});
     
         console.log(pomo[0].hours)
         
@@ -41,15 +41,15 @@ const getPomoById = async (req,res, next) => {
 
 const postIntialPomo = async (req, res, next) => {
 
-    const errors = validationResult(req)
-    if (!errors.isEmpty()){
-        throw new HttpError("Invalid inputs passed", 422)
-    }
+    // const errors = validationResult(req)
+    // if (!errors.isEmpty()){
+    //     throw new HttpError("Invalid inputs passed", 422)
+    // }
 
-    const { date, hours, creator } = req.body
+    const { date, hours, email } = req.body
 
     const createdPomo = new Pomo({
-        creator,
+        email,
         hours,
         dates: [{date:date, count: 1}]
     })

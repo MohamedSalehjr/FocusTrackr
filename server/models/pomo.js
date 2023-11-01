@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const pomoSchema = new Schema({
-    creator: {type: String},
+    email: {type: String},
     dates: {type: Array},
     hours: {type: Number}
 })

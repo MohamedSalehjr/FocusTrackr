@@ -28,7 +28,7 @@ app.use((error, req, res, next) => {
   res.json({message: error.message || 'An unknown error occurred!'})
 })
 
-mongoose.connect(`mongodb+srv://mohamedsalehjr:${process.env.DATABASE_PASS}@pomoapi.l4tohfu.mongodb.net/?retryWrites=true&w=majority`).then(() => {
+mongoose.connect(`mongodb+srv://mohamedsalehjr:${process.env.DATABASE_PASS}@pomoapi.l4tohfu.mongodb.net/pomo?retryWrites=true&w=majority`).then(() => {
   app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
   })
