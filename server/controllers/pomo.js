@@ -1,7 +1,9 @@
 const HttpError = require('../models/http-error');
 const bodyParser = require('body-parser'); 
 const {validationResult} = require('express-validator')
+const mongoose = require('mongoose');
 const Pomo = require('../models/pomo');
+const User = require('../models/users');
 
 
 // const Dummy = [
@@ -46,16 +48,36 @@ const postIntialPomo = async (req, res, next) => {
     //     throw new HttpError("Invalid inputs passed", 422)
     // }
 
-    const { date, hours, email } = req.body
+    const { date, hours, email, creator } = req.body
 
     const createdPomo = new Pomo({
         email,
         hours,
-        dates: [{date:date, count: 1}]
+        dates: [{date:date, count: 1}],
+        creator
     })
+
+    let user;
     try {
+        user = await User.findById(creator)
         
-        await createdPomo.save()
+    } catch (err) {
+        const error = new HttpError('Could not find user', 500)
+        return next(error)
+    }
+
+    if(!user){
+        const error = new HttpError('Could not find user', 404)
+        return next(error)
+    }
+
+    try {
+        const sesh = await mongoose.startSession()
+        sesh.startTransaction();
+        await createdPomo.save({session:sesh})
+        user.pomo = createdPomo
+        await user.save({session:sesh})
+        await sesh.commitTransaction()
     } catch (error) {
         const err = new HttpError(
             'creating inital pomo document failed', 500

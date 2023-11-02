@@ -5,7 +5,8 @@ const Schema = mongoose.Schema;
 const pomoSchema = new Schema({
     email: {type: String},
     dates: {type: Array},
-    hours: {type: Number}
+    hours: {type: Number},
+    creator: {type: mongoose.Types.ObjectId, required: true, ref: 'User'}
 })
 
 
