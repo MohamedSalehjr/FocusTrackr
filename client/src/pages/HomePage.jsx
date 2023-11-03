@@ -67,6 +67,7 @@ const { pomodoro, shortBreak, longBreak} = useContext(PomodoroContext);
   const [seconds, setSeconds] = useState(1500);
   const [isActive, setIsActive] = useState(false);
   const [backupSeconds, setBackupSeconds] = useState()
+  const [paused, setPaused] = useState(false);
 
   const [play, {stop}] = useSound(Alarm)
 
@@ -76,7 +77,7 @@ const { pomodoro, shortBreak, longBreak} = useContext(PomodoroContext);
   useEffect(() => {
     let interval;
 
-    if (isActive && seconds > 0) {
+    if (isActive && seconds > 0 && !paused) {
       interval = setInterval(() => {
         setSeconds((prevSeconds) => prevSeconds - 1);
       }, 1000);
@@ -87,13 +88,14 @@ const { pomodoro, shortBreak, longBreak} = useContext(PomodoroContext);
     }
 
     return () => clearInterval(interval); // Clean up interval on unmount
-  }, [isActive, seconds]);
+  }, [isActive, seconds, paused]);
 
   const handleStartTimer = (time) => {
     setSeconds(time);
     setBackupSeconds(time)
     setIsActive(true);
   };
+
 
   const handleStopTimer = (time) => {
     setIsActive(false);
@@ -129,18 +131,32 @@ const { pomodoro, shortBreak, longBreak} = useContext(PomodoroContext);
               </CardTitle>
             </CardHeader>
             <div className="flex justify-center gap-4">
-              <Button
+              { !isActive &&
+                <Button
                 className="mt-6 w-1/3 self-center"
                 onClick={() => handleStartTimer(pomodoro)}
               >
                 Start
               </Button>
+              }
+
+              <Button
+                className={`mt-6 w-1/3 self-center ${hidden}`}
+                //Pause button logic
+                // onClick={() => handleStopTimer(pomodoro)}
+                onClick={() => setPaused(!paused)}
+              >
+                Pause
+              </Button>
+             {
+              isActive &&
               <Button
                 className={`mt-6 w-1/3 self-center ${hidden}`}
                 onClick={() => handleStopTimer(pomodoro)}
               >
-                Reset
+                Skip
               </Button>
+             } 
             </div>
           </Card>
         </TabsContent>
