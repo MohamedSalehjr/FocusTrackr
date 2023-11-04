@@ -146,7 +146,7 @@ const { pomodoro, shortBreak, longBreak} = useContext(PomodoroContext);
                 // onClick={() => handleStopTimer(pomodoro)}
                 onClick={() => setPaused(!paused)}
               >
-                Pause
+                {paused ? "Resume" : "Pause"}
               </Button>
              {
               isActive &&

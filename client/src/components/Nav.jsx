@@ -12,6 +12,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../../components/ui/dialog";
+import{
+UserButton,
+} from "@clerk/clerk-react"
 
 export default function Nav() {
 
@@ -28,7 +31,7 @@ export default function Nav() {
         </Link>
         <div className="flex items-center gap-4">
           <Link
-            to="/login"
+            to="/sign-in"
             className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0  "
           >
             Login
@@ -36,6 +39,10 @@ export default function Nav() {
 
           <div>
             <Report/>
+          </div>
+
+          <div>
+            <UserButton/>
           </div>
           
           <Dialog>
