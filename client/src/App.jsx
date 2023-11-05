@@ -4,7 +4,7 @@ import Nav from "./components/Nav.jsx"
 import HomePage from "./pages/HomePage.jsx"
 import {Routes, Route,useNavigate } from "react-router-dom"
 
-import LoginPage from "./pages/LoginPage.jsx";
+
 import env from "react-dotenv";
 // import {process} from  'dotenv/config'
 // require('dotenv').config()
@@ -31,20 +31,21 @@ if (!PUBLISH_KEY) {
 const clerkPubKey = PUBLISH_KEY
 
 
-function PublicPage() {
+function PublicPage(props) {
   return (
     <>
-      <Nav/>
+      <Nav signedIn={props.signedIn}/>
       <HomePage/>
     </>
   );
 }
 
 
-function ProtectedPage() {
+function ProtectedPage(props) {
   return (
     <>
-      <Nav/>
+    {console.log(props.signedIn)}
+      <Nav signedIn={props.signedIn}/>
       <HomePage/>
     </>
   )
@@ -64,7 +65,7 @@ function App() {
       {/* <Nav/> */}
         <Routes>
           {/* <Route path="/" element={<HomePage/>}/> */}
-          <Route path="/" element={<PublicPage/>} />
+          <Route path="/" element={<PublicPage signedIn={false}/>} />
 
           <Route
           path="/sign-in/*"
@@ -81,10 +82,10 @@ function App() {
           element={
           <>
             <SignedIn>
-              <ProtectedPage />
+              <ProtectedPage signedIn={true} />
             </SignedIn>
              <SignedOut>
-              <PublicPage />
+              <PublicPage signedIn={false}/>
            </SignedOut>
           </>
           }

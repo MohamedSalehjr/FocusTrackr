@@ -16,7 +16,7 @@ import{
 UserButton,
 } from "@clerk/clerk-react"
 
-export default function Nav() {
+export default function Nav(props) {
 
   const { pomodoro, shortBreak, longBreak,changePomodoro, changeShortBreak, changeLongBreak } = useContext(PomodoroContext);
   
@@ -30,17 +30,23 @@ export default function Nav() {
           </span>
         </Link>
         <div className="flex items-center gap-4">
-          <Link
-            to="/sign-in"
-            className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0  "
-          >
-            Login
-          </Link>
-
-          <div>
-            <Report/>
-          </div>
-
+          {console.log(props.signedIn)}
+          {!props.signedIn &&
+             <Link
+             to="/sign-in"
+             className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0  "
+           >
+             Login
+           </Link>
+          }
+         
+          { props.signedIn &&
+              <div>
+              <Report/>
+            </div>
+  
+          }
+        
           <div>
             <UserButton/>
           </div>
