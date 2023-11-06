@@ -10,13 +10,13 @@ const getUsers = async (req, res, next) => {
 
     let user;
     try {
-         user = await User.find({creator:userId});
+         user = await User.findById(userId);
     } catch (error) {
         const err = new HttpError("could not find user", 500)
         return next(err)
     }
 
-    res.json({user: user.map(user => user.toObject({getters:true}))})
+    res.json({user: user.toObject({getters:true})})
 }
 
 

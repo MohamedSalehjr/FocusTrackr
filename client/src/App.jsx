@@ -4,10 +4,6 @@ import Nav from "./components/Nav.jsx"
 import HomePage from "./pages/HomePage.jsx"
 import {Routes, Route,useNavigate } from "react-router-dom"
 
-
-import env from "react-dotenv";
-// import {process} from  'dotenv/config'
-// require('dotenv').config()
 import {
   ClerkProvider,
   SignedIn,
@@ -18,9 +14,6 @@ import {
   UserButton,
 } from "@clerk/clerk-react";
 import { Home } from "lucide-react";
-
-
-// import CountdownTimer from "./pages/CountdownTimer.jsx";
 
 const PUBLISH_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
@@ -64,7 +57,7 @@ function App() {
       <PomodoroProvider>
       {/* <Nav/> */}
         <Routes>
-          {/* <Route path="/" element={<HomePage/>}/> */}
+  
           <Route path="/" element={<PublicPage signedIn={false}/>} />
 
           <Route
@@ -76,7 +69,7 @@ function App() {
           path="/sign-up/*"
           element={<SignUp routing="path" path="/sign-up" />}
           />
-          {/* <Route path="/login" element={<LoginPage/>}/> */}
+    
           <Route
           path="/protected"
           element={

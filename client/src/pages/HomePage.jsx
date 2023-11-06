@@ -26,21 +26,7 @@ import {
   TabsTrigger,
 } from "../../components/ui/tabs";
 
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "../../components/ui/popover";
-
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../../components/ui/dialog";
-
+import { useAuth } from "@clerk/clerk-react";
 
 export const formatTime = (timeInSeconds) => {
     const minutes = Math.floor(timeInSeconds / 60);
@@ -54,6 +40,8 @@ export default function HomePage() {
 //   const [pomodoro, setPomodoro] = useState(1500);
 //   const [shortBreak, setshortBreak] = useState(300);
 //   const [longBreak, setlongBreak] = useState(900);
+
+const { isLoaded, userId, sessionId, getToken } = useAuth();
 
 const { pomodoro, shortBreak, longBreak} = useContext(PomodoroContext);
 

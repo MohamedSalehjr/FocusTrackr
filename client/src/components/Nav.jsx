@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { PomodoroContext } from "../PomodoroContext.jsx";
 import { formatTime } from "../pages/HomePage.jsx";
 import Report from "./Report.jsx";
+import { useAuth } from "@clerk/clerk-react";
 // import "../../styles/style.css"
 import {
   Dialog,
@@ -19,7 +20,7 @@ UserButton,
 export default function Nav(props) {
 
   const { pomodoro, shortBreak, longBreak,changePomodoro, changeShortBreak, changeLongBreak } = useContext(PomodoroContext);
-  
+  const { isLoaded, userId, sessionId, getToken } = useAuth();
 
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900">
