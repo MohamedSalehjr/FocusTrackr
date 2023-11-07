@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 const Pomo = require('../models/pomo');
 const User = require('../models/users');
 
+const {Webhook} = require("svix")
+
 
 
 // const Dummy = [
@@ -82,29 +84,26 @@ const postIntialPomo = async (req, res, next) => {
     // }
     // res.status(201).json(createdPomo)
     try {
-        const payload = req.body;
+        const payload = JSON.stringify(req.body);
         const headers = req.headers;
-        
-        // Replace process.env.CLERK_WEBHOOK_SECRET_KEY with your actual secret key
-        const wh = new Webhook(process.env.CLERK_WEBHOOK_SECRET_KEY);
-        const evt = wh.verify(payload.toString(), headers);
-        const id = evt.data.id;
-        
+ 
+        const wh = new Webhook(process.env.CLERK_WEBHOOK_SECRET_KEY)
+        const evt = wh.verify(payload, headers) 
+        const { id } = evt.data;
         // Handle the webhook
         const eventType = evt.type;
-        if (eventType === 'user.created') {
-            console.log(`User ${id} was ${eventType}`);
+        if (eventType === "user.created") {
+          console.log(`User ${id} was ${eventType}`);
         }
-        
-        res.status(200).json({
+         res.status(200).json({
             success: true,
             message: 'Webhook received'
-        });
+         })
     } catch (err) {
         res.status(400).json({
             success: false,
             message: err.message
-        });
+        })
     }
 }
 
@@ -112,6 +111,7 @@ const patchPomoByDate = async (req, res, next) => {
     const { date, length} = req.body
 
     const pomoId = req.params.pid
+    
 
 
     let pomo;
