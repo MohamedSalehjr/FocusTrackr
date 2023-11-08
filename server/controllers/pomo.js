@@ -24,7 +24,7 @@ const getPomoById = async (req,res, next) => {
 
     let pomo;
     try {
-        pomo = await Pomo.find({email: pomoId});
+        pomo = await Pomo.find({creator: pomoId});
     
         console.log(pomo[0].hours)
         
@@ -46,14 +46,6 @@ const getPomoById = async (req,res, next) => {
 
 const postIntialPomo = async (req, res, next) => {
 
-    // const { date, hours, email, creator } = req.body
-
-    // const createdPomo = new Pomo({
-    //     email,
-    //     hours,
-    //     dates: [{date:date, count: 1}],
-    //     creator
-    // })
 
     // let user;
     // try {
@@ -83,6 +75,8 @@ const postIntialPomo = async (req, res, next) => {
     //     return next(err)
     // }
     // res.status(201).json(createdPomo)
+
+
     try {
         const payload = JSON.stringify(req.body);
         const headers = req.headers;
@@ -94,6 +88,17 @@ const postIntialPomo = async (req, res, next) => {
         const eventType = evt.type;
         if (eventType === "user.created") {
           console.log(`User ${id} was ${eventType}`);
+          const hours = 0
+          const current = new Date();
+          const today = `${current.getFullYear()}-${current.getMonth()}-${current.getDate()}`;
+          const date = today
+          const time = 0
+          const createdPomo = new Pomo({
+            hours,
+            dates: [{date:date, count: 0, time: time}],
+            creator: id
+        })
+        await createdPomo.save()
         }
          res.status(200).json({
             success: true,

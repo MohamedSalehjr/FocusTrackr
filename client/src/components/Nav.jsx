@@ -32,7 +32,7 @@ export default function Nav(props) {
         </Link>
         <div className="flex items-center gap-4">
           {console.log(props.signedIn)}
-          {!props.signedIn &&
+          {props.signedIn &&
              <Link
              to="/sign-in"
              className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0  "

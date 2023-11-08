@@ -58,7 +58,7 @@ function App() {
       {/* <Nav/> */}
         <Routes>
   
-          <Route path="/" element={<PublicPage signedIn={false}/>} />
+          <Route path="/" element={<PublicPage signedIn={true}/>} />
 
           <Route
           path="/sign-in/*"
