@@ -25,8 +25,6 @@ const getPomoById = async (req,res, next) => {
     let pomo;
     try {
         pomo = await Pomo.find({creator: pomoId});
-    
-        console.log(pomo[0].hours)
         
     } catch (error) {
         const err = new HttpError("Something went wrong could not find pomo", 500)
@@ -90,7 +88,7 @@ const postIntialPomo = async (req, res, next) => {
           console.log(`User ${id} was ${eventType}`);
           const hours = 0
           const current = new Date();
-          const today = `${current.getFullYear()}-${current.getMonth()}-${current.getDate()}`;
+          const today = `${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate()}`;
           const date = today
           const time = 0
           const createdPomo = new Pomo({
@@ -116,29 +114,48 @@ const patchPomoByDate = async (req, res, next) => {
     const { date, length} = req.body
 
     const pomoId = req.params.pid
-    
-
 
     let pomo;
     try {
-        pomo = await Pomo.findById(pomoId);
+        pomo = await Pomo.findOne({creator:pomoId});
     } catch (error) {
         const err = new HttpError("Something went wrong could not find pomo", 500)
         return next(err)
     }
 
-    // let pomoDatesArray = pomo[0].dates;
-    // let dateObject = pomoDatesArray.find((d) => d.date === '2023-01-01')
-    // const updateCount = dateObject.count
+    let dateObject = pomo.dates.find((d) => d.date === date)
+    let arrayWithoutPassedInDate = pomo.dates.filter((d) => d.date != date)
+
+    if(dateObject){
+        
+        // dateObject.count = dateObject.count + 1
+
+        const newData = {
+            count: dateObject.count + 1,
+            time: dateObject.time + length
+        }
+
+        dateObject = {...dateObject, ...newData}
+
+        console.log(arrayWithoutPassedInDate)
+        let newDatesArray = arrayWithoutPassedInDate.push(dateObject)
+        console.log(newDatesArray)
+
+        // pomo.dates = newDatesArray
+
+        // console.log(dateObject)
+        
+        // console.log(pomo)
+    }else{
+        pomo.dates.push({date: date, count: 1, time: length })
+        console.log(pomo)
+    }
+
     const newhours = pomo.hours + length
-    console.log(newhours)
+
     pomo.hours = newhours
    
-    const dateObject =  pomo.dates.find((d) => d.date === date)
-
-    dateObject.count += 1
-
-
+   
     try {
         await pomo.save()
     } catch (err) {
@@ -148,6 +165,8 @@ const patchPomoByDate = async (req, res, next) => {
 
     res.json({pomo: pomo.toObject({getters: true})})
 }
+
+// handle case where dateobject is undefined
 
 exports.getPomoById = getPomoById
 exports.postIntialPomo = postIntialPomo;

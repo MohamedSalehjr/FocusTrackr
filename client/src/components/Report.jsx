@@ -23,10 +23,9 @@ import {
 
 const Report = () => {
   const current = new Date();
-  const today = `${current.getFullYear()}-${current.getMonth()}-${current.getDate()}`;
-  // console.log(
-  // `${current.getFullYear()}-${current.getMonth()}-${current.getDate()}`
-  // );
+  const today = `${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate()}`;
+  console.log(current);
+console.log(today)
 
   return (
     <>
@@ -48,10 +47,9 @@ const Report = () => {
             startDate={new Date("2023-01-01")}
             endDate={new Date("2023-12-30")}
             values={[
-              { date: "2023-01-01", count: 1 },
               { date: "2023-01-22", count: 2 },
-              { date: "2023-01-30", count: 3 },
-              { date: today, count: 5 },
+              { date: "2023-11-8", count: 3 },
+              { date: today, count: 4 },
             ]}
             classForValue={(value) => {
               if (!value) {
