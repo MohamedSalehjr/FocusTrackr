@@ -3,9 +3,22 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const pomoSchema = new Schema({
-    dates: {type: Array},
-    hours: {type: Number},
-    creator: {type: String}
+    hours: {
+        type: Number,
+        required: true
+    },
+    creator: {
+        type: String,
+        required: true
+    },
+    count: {
+        type: Number,
+
+    },
+    date: {
+        type: String,
+
+    },
 })
 
 

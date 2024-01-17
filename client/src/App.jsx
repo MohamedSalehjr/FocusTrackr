@@ -3,6 +3,12 @@ import { PomodoroContext, PomodoroProvider } from "./PomodoroContext.jsx";
 import Nav from "./components/Nav.jsx"
 import HomePage from "./pages/HomePage.jsx"
 import {Routes, Route,useNavigate } from "react-router-dom"
+import { createClient } from "@supabase/supabase-js";
+
+const supabaseUrl = 'https://pmvuryvckkblkkbvaefs.supabase.co'
+const supabaseKey = import.meta.env.VITE_SUPABASE_KEY
+
+const supabase = createClient(supabaseUrl, supabaseKey)
 
 import {
   ClerkProvider,
