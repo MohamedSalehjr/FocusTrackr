@@ -16,6 +16,6 @@ router.post('/webhook', pomoControllers.postIntialPomo)
 
 router.post('/postpomo', pomoControllers.postPomo)
 
-router.patch('/:pid', pomoControllers.patchPomoByDate)
+// router.patch('/:pid', pomoControllers.patchPomoByDate)
 
 module.exports = router;

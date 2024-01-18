@@ -184,98 +184,98 @@ const postIntialPomo = async (req, res, next) => {
     }
 }
 
-const patchPomoByDate = async (req, res, next) => {
-    const {
-        date,
-        length
-    } = req.body
+// const patchPomoByDate = async (req, res, next) => {
+//     const {
+//         date,
+//         length
+//     } = req.body
 
-    const pomoId = req.params.pid
+//     const pomoId = req.params.pid
 
-    let pomo;
-    try {
-        pomo = await Pomo.findOne({
-            creator: pomoId
-        });
-    } catch (error) {
-        const err = new HttpError("Something went wrong could not find pomo", 500)
-        return next(err)
-    }
+//     let pomo;
+//     try {
+//         pomo = await Pomo.findOne({
+//             creator: pomoId
+//         });
+//     } catch (error) {
+//         const err = new HttpError("Something went wrong could not find pomo", 500)
+//         return next(err)
+//     }
 
-    let dateObject = pomo.dates.find((d) => d.date === date)
-    // let arrayWithoutPassedInDate = pomo.dates.filter((d) => d.date != date)
-    let index = pomo.dates.findIndex((d) => d.date === date);
-    console.log(index)
+//     let dateObject = pomo.dates.find((d) => d.date === date)
+// let arrayWithoutPassedInDate = pomo.dates.filter((d) => d.date != date)
+// let index = pomo.dates.findIndex((d) => d.date === date);
+// console.log(index)
 
-    // console.log(count)
-    // console.log(time)
+// console.log(count)
+// console.log(time)
 
-    if (dateObject) {
+// if (dateObject) {
 
-        let count = pomo.dates[index].count + 1
-        let time = pomo.dates[index].time + length
-        console.log(count)
-        console.log(time)
-        // dateObject.count = dateObject.count + 1
-        // db.students.updateOne(
-        //     { _id: index, "dates.date": date },
-        //     { $set: { "dates.$.count": count } }
-        //  )
+//     let count = pomo.dates[index].count + 1
+//     let time = pomo.dates[index].time + length
+//     console.log(count)
+//     console.log(time)
+// dateObject.count = dateObject.count + 1
+// db.students.updateOne(
+//     { _id: index, "dates.date": date },
+//     { $set: { "dates.$.count": count } }
+//  )
 
-        try {
-            const result = await pomo.updateOne({
-                dates: {
-                    "date": "2023-11-8"
-                }
-            }, {
-                $set: {
-                    "dates.$.date": "2023-11-9"
-                }
-            }, {
-                upsert: true
-            })
-            console.log(
-                date
-            );
-
-
-        } catch (err) {
-            const error = new HttpError(err, 500)
-            return next(error)
-        }
+// try {
+//     const result = await pomo.updateOne({
+//         dates: {
+//             "date": "2023-11-8"
+//         }
+//     }, {
+//         $set: {
+//             "dates.$.date": "2023-11-9"
+//         }
+//     }, {
+//         upsert: true
+//     })
+//     console.log(
+//         date
+//     );
 
 
-    } else {
-        pomo.dates.push({
-            date: date,
-            count: 1,
-            time: length
-        })
-        console.log(pomo)
-    }
-
-    const newhours = pomo.hours + length
-
-    pomo.hours = newhours
+// } catch (err) {
+//     const error = new HttpError(err, 500)
+//     return next(error)
+// }
 
 
-    try {
-        await pomo.save()
-    } catch (err) {
-        const error = new HttpError("could not update pomo", 500)
-        return next(error)
-    }
+//     } else {
+//         pomo.dates.push({
+//             date: date,
+//             count: 1,
+//             time: length
+//         })
+//         console.log(pomo)
+//     }
 
-    res.json({
-        pomo: pomo.toObject({
-            getters: true
-        })
-    })
-}
+//     const newhours = pomo.hours + length
+
+//     pomo.hours = newhours
+
+
+//     try {
+//         await pomo.save()
+//     } catch (err) {
+//         const error = new HttpError("could not update pomo", 500)
+//         return next(error)
+//     }
+
+//     res.json({
+//         pomo: pomo.toObject({
+//             getters: true
+//         })
+//     })
+// }
 
 // handle case where dateobject is undefined
 
 exports.getPomoById = getPomoById
 exports.postPomo = postPomo;
 exports.postIntialPomo = postIntialPomo;
-exports.patchPomoByDate = patchPomoByDate
+// exports.patchPomoByDate = patchPomoByDate
