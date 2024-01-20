@@ -12,7 +12,7 @@ router.get('/:pid', pomoControllers.getPomoById)
 
 //Example of using express validator 
 // Although I won't use it further as I am not getting info from the client it will all be internal 
-router.post('/webhook', pomoControllers.postIntialPomo)
+// router.post('/webhook', pomoControllers.postIntialPomo)
 
 router.post('/postpomo', pomoControllers.postPomo)
 

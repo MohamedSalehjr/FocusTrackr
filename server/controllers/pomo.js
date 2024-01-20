@@ -38,6 +38,31 @@ const getPomoById = async (req, res, next) => {
 
 
 }
+const updateUserHours = async (creator, hours) => {
+
+    let existingUser;
+    try {
+        existingUser = await User.findOne({
+            creator: creator
+        })
+    } catch (err) {
+        const error = new HttpError("could not update users hours", 500)
+        return next(error)
+    }
+
+    if (existingUser) {
+        const newHours = existingUser.hours + hours
+        existingUser.hours = newHours;
+    }
+
+    try {
+        await existingUser.save()
+    } catch (error) {
+        const err = new HttpError("Could not update User", 500)
+        next(err)
+    }
+
+}
 
 const postPomo = async (req, res, next) => {
     const {
@@ -82,6 +107,8 @@ const postPomo = async (req, res, next) => {
                 getters: true
             })
         })
+        updateUserHours(creator, hours);
+
 
     } else {
         const createdPomo = new Pomo({
@@ -102,87 +129,84 @@ const postPomo = async (req, res, next) => {
                 getters: true
             })
         })
-    }
-    // Check if pomo with matching date and user already already exists, if it does update that 
-
-
-
-}
-
-
-const postIntialPomo = async (req, res, next) => {
-
-
-    // let user;
-    // try {
-    //     user = await User.findById(creator)
-
-    // } catch (err) {
-    //     const error = new HttpError('Could not find user', 500)
-    //     return next(error)
-    // }
-
-    // if(!user){
-    //     const error = new HttpError('Could not find user', 404)
-    //     return next(error)
-    // }
-
-    // try {
-    //     const sesh = await mongoose.startSession()
-    //     sesh.startTransaction();
-    //     await createdPomo.save({session:sesh})
-    //     user.pomo = createdPomo
-    //     await user.save({session:sesh})
-    //     await sesh.commitTransaction()
-    // } catch (error) {
-    //     const err = new HttpError(
-    //         'creating inital pomo document failed', 500
-    //     )
-    //     return next(err)
-    // }
-    // res.status(201).json(createdPomo)
-
-
-    try {
-        const payload = JSON.stringify(req.body);
-        const headers = req.headers;
-
-        const wh = new Webhook(process.env.CLERK_WEBHOOK_SECRET_KEY)
-        const evt = wh.verify(payload, headers)
-        const {
-            id
-        } = evt.data;
-        // Handle the webhook
-        const eventType = evt.type;
-        if (eventType === "user.created") {
-            console.log(`User ${id} was ${eventType}`);
-            const hours = 0
-            const current = new Date();
-            const today = `${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate()}`;
-            const date = today
-            const time = 0
-            const createdPomo = new Pomo({
-                hours,
-                dates: [{
-                    date: date,
-                    count: 0,
-                    time: time
-                }],
-                creator: id
-            })
-            await createdPomo.save()
-        }
-        res.status(200).json({
-            success: true,
-            message: 'Webhook received'
-        })
-    } catch (err) {
-        res.status(400).json({
-            success: false,
-            message: err.message
-        })
+        updateUserHours(creator, hours);
     }
 }
+
+
+// const postIntialPomo = async (req, res, next) => {
+
+
+// let user;
+// try {
+//     user = await User.findById(creator)
+
+// } catch (err) {
+//     const error = new HttpError('Could not find user', 500)
+//     return next(error)
+// }
+
+// if(!user){
+//     const error = new HttpError('Could not find user', 404)
+//     return next(error)
+// }
+
+// try {
+//     const sesh = await mongoose.startSession()
+//     sesh.startTransaction();
+//     await createdPomo.save({session:sesh})
+//     user.pomo = createdPomo
+//     await user.save({session:sesh})
+//     await sesh.commitTransaction()
+// } catch (error) {
+//     const err = new HttpError(
+//         'creating inital pomo document failed', 500
+//     )
+//     return next(err)
+// }
+// res.status(201).json(createdPomo)
+
+
+//     try {
+//         const payload = JSON.stringify(req.body);
+//         const headers = req.headers;
+
+//         const wh = new Webhook(process.env.CLERK_WEBHOOK_SECRET_KEY)
+//         const evt = wh.verify(payload, headers)
+//         const {
+//             id
+//         } = evt.data;
+//         // Handle the webhook
+//         const eventType = evt.type;
+//         if (eventType === "user.created") {
+//             console.log(`User ${id} was ${eventType}`);
+//             const hours = 0
+//             const current = new Date();
+//             const today = `${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate()}`;
+//             const date = today
+//             const time = 0
+//             const createdPomo = new Pomo({
+//                 hours,
+//                 dates: [{
+//                     date: date,
+//                     count: 0,
+//                     time: time
+//                 }],
+//                 creator: id
+//             })
+//             await createdPomo.save()
+//         }
+//         res.status(200).json({
+//             success: true,
+//             message: 'Webhook received'
+//         })
+//     } catch (err) {
+//         res.status(400).json({
+//             success: false,
+//             message: err.message
+//         })
+//     }
+// }
 
 // const patchPomoByDate = async (req, res, next) => {
 //     const {
@@ -277,5 +301,5 @@ const postIntialPomo = async (req, res, next) => {
 
 exports.getPomoById = getPomoById
 exports.postPomo = postPomo;
-exports.postIntialPomo = postIntialPomo;
+// exports.postIntialPomo = postIntialPomo;
 // exports.patchPomoByDate = patchPomoByDate
