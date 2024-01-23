@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get('/:uid', userControllers.getUsers)
 
-// router.post('/signup', userControllers.signup)
+router.post('/webhook', userControllers.postInitialUser)
 
 // router.post('/login', userControllers.login)
 

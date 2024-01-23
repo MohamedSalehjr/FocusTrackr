@@ -1,8 +1,15 @@
 const HttpError = require("../models/http-error")
 const User = require("../models/users")
+const bodyParser = require('body-parser');
+const {
+    validationResult
+} = require('express-validator')
+const mongoose = require('mongoose');
 
 
-
+const {
+    Webhook
+} = require("svix")
 
 
 const getUsers = async (req, res, next) => {
@@ -102,27 +109,62 @@ const getUsers = async (req, res, next) => {
 
 // }
 
+const createUser = async (firstname, hours, userId, next) => {
+    const createdUser = new User({
+        name: firstname,
+        hours: hours,
+        creator: userId
+    })
+    try {
+        await createdUser.save()
+    } catch (error) {
+        const err = new HttpError("Could not create pomo", 500)
+        next(err)
+    }
+}
+
 const postInitialUser = async (req, res, next) => {
+    const hours = 0
 
     try {
         const payload = JSON.stringify(req.body);
         const headers = req.headers;
 
+        // Get the Svix headers for verification
+        const svix_id = headers["svix-id"]
+        const svix_timestamp = headers["svix-timestamp"]
+        const svix_signature = headers["svix-signature"]
+
+        // If there are missing Svix headers, error out
+        if (!svix_id || !svix_timestamp || !svix_signature) {
+            return new Response("Error occured -- no svix headers", {
+                status: 400,
+            });
+        }
+
+
         const wh = new Webhook(process.env.CLERK_WEBHOOK_SECRET_KEY)
-        const evt = wh.verify(payload, headers)
+        const evt = wh.verify(payload, {
+            "svix-id": svix_id,
+            "svix-timestamp": svix_timestamp,
+            "svix-signature": svix_signature,
+        })
         const {
             id,
             first_name,
+            primary_email_address_id
         } = evt.data;
         // Handle the webhook
         const eventType = evt.type;
         if (eventType === "user.created") {
             console.log(`User ${id} was ${eventType}`);
-            const hours = 0
+            console.log(`User ${first_name} was ${eventType}`);
+
             const createdUser = new User({
-                name: first_name,
                 hours: hours,
-                creator: id
+                name: first_name,
+                creator: id,
+                email: primary_email_address_id
             })
             await createdUser.save()
         }
@@ -130,12 +172,20 @@ const postInitialUser = async (req, res, next) => {
             success: true,
             message: 'Webhook received'
         })
-    } catch (err) {
-        res.status(400).json({
-            success: false,
-            message: err.message
-        })
+
+    } catch (error) {
+        const err = new HttpError(error, 400)
+        console.log(error)
+        return next(err)
+
+
     }
+
+    // res.status(200).json({
+    //     success: true,
+    //     message: 'Webhook received'
+    // })
+
 }
 
 
