@@ -13,13 +13,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../../components/ui/dialog";
-import{
-UserButton,
-} from "@clerk/clerk-react"
+import { UserButton } from "@clerk/clerk-react";
 
 export default function Nav(props) {
-
-  const { pomodoro, shortBreak, longBreak,changePomodoro, changeShortBreak, changeLongBreak } = useContext(PomodoroContext);
+  const {
+    pomodoro,
+    shortBreak,
+    longBreak,
+    changePomodoro,
+    changeShortBreak,
+    changeLongBreak,
+  } = useContext(PomodoroContext);
   const { isLoaded, userId, sessionId, getToken } = useAuth();
 
   return (
@@ -32,26 +36,25 @@ export default function Nav(props) {
         </Link>
         <div className="flex items-center gap-4">
           {console.log(props.signedIn)}
-          {props.signedIn &&
-             <Link
-             to="/sign-in"
-             className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0  "
-           >
-             Login
-           </Link>
-          }
-         
-          { props.signedIn &&
-              <div>
-              <Report/>
+          {!props.signedIn && (
+            <Link
+              to="/sign-in"
+              className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0  "
+            >
+              Login
+            </Link>
+          )}
+
+          {props.signedIn && (
+            <div>
+              <Report />
             </div>
-  
-          }
-        
+          )}
+
           <div>
-            <UserButton/>
+            <UserButton afterSignOutUrl="/" />
           </div>
-          
+
           <Dialog>
             <DialogTrigger className="mt-2">
               <ion-icon name="settings-outline"></ion-icon>
@@ -75,7 +78,6 @@ export default function Nav(props) {
                         placeholder={formatTime(pomodoro)}
                         onChange={(e) => changePomodoro(e.target.value)}
                       />
-                    
                     </div>
                     <div class="w-full md:w-1/3 px-3">
                       <label

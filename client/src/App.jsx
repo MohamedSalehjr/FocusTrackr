@@ -1,14 +1,14 @@
-import { useState,createContext , useContext } from "react";
+import { useState, createContext, useContext } from "react";
 import { PomodoroContext, PomodoroProvider } from "./PomodoroContext.jsx";
-import Nav from "./components/Nav.jsx"
-import HomePage from "./pages/HomePage.jsx"
-import {Routes, Route,useNavigate } from "react-router-dom"
+import Nav from "./components/Nav.jsx";
+import HomePage from "./pages/HomePage.jsx";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl = 'https://pmvuryvckkblkkbvaefs.supabase.co'
-const supabaseKey = import.meta.env.VITE_SUPABASE_KEY
+const supabaseUrl = "https://pmvuryvckkblkkbvaefs.supabase.co";
+const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
 
-const supabase = createClient(supabaseUrl, supabaseKey)
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 import {
   ClerkProvider,
@@ -21,74 +21,68 @@ import {
 } from "@clerk/clerk-react";
 import { Home } from "lucide-react";
 
-const PUBLISH_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+const PUBLISH_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
 if (!PUBLISH_KEY) {
-  throw new Error("Missing Publishable Key")
+  throw new Error("Missing Publishable Key");
 }
 
-const clerkPubKey = PUBLISH_KEY
-
+const clerkPubKey = PUBLISH_KEY;
 
 function PublicPage(props) {
   return (
     <>
-      <Nav signedIn={props.signedIn}/>
-      <HomePage/>
+      <Nav signedIn={props.signedOut} />
+      <HomePage />
     </>
   );
 }
 
-
 function ProtectedPage(props) {
   return (
     <>
-    {console.log(props.signedIn)}
-      <Nav signedIn={props.signedIn}/>
-      <HomePage/>
+      {/* {console.log(props.signedIn)} */}
+      <Nav signedIn={props.signedIn} />
+      <HomePage />
     </>
-  )
+  );
 }
 
 function App() {
-
   const navigate = useNavigate();
 
   return (
-  
-     <ClerkProvider
-      publishableKey={clerkPubKey}
-      navigate={(to) => navigate(to)}
-    >
+    <ClerkProvider publishableKey={clerkPubKey} navigate={(to) => navigate(to)}>
       <PomodoroProvider>
-      {/* <Nav/> */}
+        {/* <Nav/> */}
         <Routes>
-  
-          <Route path="/" element={<PublicPage signedIn={true}/>} />
+          <Route path="/" element={<PublicPage signedIn={true} />} />
 
           <Route
-          path="/sign-in/*"
-          element={<SignIn redirectUrl="/protected" routing="path" path="/sign-in" />}
+            path="/sign-in/*"
+            element={
+              <SignIn redirectUrl="/protected" routing="path" path="/sign-in" />
+            }
           />
 
           <Route
-          path="/sign-up/*"
-          element={<SignUp routing="path" path="/sign-up" />}
+            path="/sign-up/*"
+            element={<SignUp routing="path" path="/sign-up" />}
           />
-    
+
           <Route
-          path="/protected"
-          element={
-          <>
-            <SignedIn>
-              <ProtectedPage signedIn={true} />
-            </SignedIn>
-             <SignedOut>
-              <PublicPage signedIn={false}/>
-           </SignedOut>
-          </>
-          }
-        />
+            path="/protected"
+            element={
+              <>
+                <SignedIn>
+                  <ProtectedPage signedIn={true} />
+                </SignedIn>
+                <SignedOut>
+                  <PublicPage signedIn={false} />
+                </SignedOut>
+              </>
+            }
+          />
         </Routes>
       </PomodoroProvider>
     </ClerkProvider>
