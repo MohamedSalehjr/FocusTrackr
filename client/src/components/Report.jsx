@@ -1,4 +1,5 @@
 import CalendarHeatmap from "react-calendar-heatmap";
+import { useState, useEffect } from "react";
 import "react-calendar-heatmap/dist/styles.css";
 import "react-tooltip/dist/react-tooltip.css";
 import { Tooltip } from "react-tooltip";
@@ -23,9 +24,32 @@ import {
 
 const Report = () => {
   const current = new Date();
-  const today = `${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate()}`;
+
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    // Fetch operation
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:4000/api/pomo/u1");
+        const jsonData = await response.json();
+        setData(jsonData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData(); // Call the fetch function
+
+    // Cleanup function (not needed here since we're not subscribing to any resources)
+  }, []);
+
+  console.log(data);
+  const today = `${current.getFullYear()}-${
+    current.getMonth() + 1
+  }-${current.getDate()}`;
   console.log(current);
-console.log(today)
+  console.log(today);
 
   return (
     <>
@@ -35,9 +59,10 @@ console.log(today)
           <Card className="w-1/2 mx-auto">
             <CardHeader className="">
               <CardTitle className="self-center text-5xl">23 hrs</CardTitle>
-              <CardDescription className="self-center">Total Time focused</CardDescription>
+              <CardDescription className="self-center">
+                Total Time focused
+              </CardDescription>
             </CardHeader>
-  
           </Card>
           <DialogHeader>
             <DialogTitle>Heatmap</DialogTitle>
