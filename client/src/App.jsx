@@ -56,7 +56,7 @@ function App() {
       <PomodoroProvider>
         {/* <Nav/> */}
         <Routes>
-          <Route path="/" element={<PublicPage signedIn={true} />} />
+          <Route path="/" element={<PublicPage signedIn={false} />} />
 
           <Route
             path="/sign-in/*"

@@ -24,7 +24,7 @@ import {
 
 const Report = () => {
   const current = new Date();
-
+  let extractedData;
   const [data, setData] = useState(null);
 
   useEffect(() => {
@@ -37,14 +37,50 @@ const Report = () => {
       } catch (error) {
         console.error("Error fetching data:", error);
       }
+      // console.log(data);
     };
 
     fetchData(); // Call the fetch function
+    // if (data != null) {
+    // }
+    // const extractedData = data.pomo.map((item) => {
+    //   return {
+    //     date: item.date,
+    //     count: item.count,
+    //   };
+    //   console.log(extractedData);
 
+    // });
+
+    // console.log(extractedData);
     // Cleanup function (not needed here since we're not subscribing to any resources)
   }, []);
 
-  console.log(data);
+  if (!data) {
+    // handle empty response
+  } else if (data.error) {
+    // handle error
+  } else {
+    // process results
+    // console.log(
+    //   data.pomo.map((item) => {
+    //     return {
+    //       date: item.date,
+    //       count: item.count,
+    //     };
+    //   })
+    // );
+
+    extractedData = data.pomo.map((item) => {
+      return {
+        date: item.date,
+        count: item.count,
+      };
+    });
+
+    console.log(extractedData[0]);
+  }
+
   const today = `${current.getFullYear()}-${
     current.getMonth() + 1
   }-${current.getDate()}`;
@@ -69,13 +105,9 @@ const Report = () => {
           </DialogHeader>
           <CalendarHeatmap
             className=""
-            startDate={new Date("2023-01-01")}
-            endDate={new Date("2023-12-30")}
-            values={[
-              { date: "2023-01-22", count: 2 },
-              { date: "2023-11-8", count: 3 },
-              { date: today, count: 4 },
-            ]}
+            startDate={new Date("2024-01-01")}
+            endDate={new Date("2024-12-30")}
+            values={extractedData}
             classForValue={(value) => {
               if (!value) {
                 return "color-empty";
