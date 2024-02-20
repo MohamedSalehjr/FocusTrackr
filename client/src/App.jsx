@@ -12,6 +12,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 import {
   ClerkProvider,
+  useUser,
   SignedIn,
   SignedOut,
   RedirectToSignIn,
