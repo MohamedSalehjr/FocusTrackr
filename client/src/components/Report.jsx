@@ -1,5 +1,6 @@
 import CalendarHeatmap from "react-calendar-heatmap";
 import { useState, useEffect } from "react";
+import { useUser } from "@clerk/clerk-react";
 import "react-calendar-heatmap/dist/styles.css";
 import "react-tooltip/dist/react-tooltip.css";
 import { Tooltip } from "react-tooltip";
@@ -20,16 +21,20 @@ import {
 
 const Report = () => {
   const current = new Date();
+  const { user } = useUser();
   let extractedData;
   let extractedTotalTime;
   const [data, setData] = useState(null);
   const [totalTime, setTotalTime] = useState(0);
+  const userid = user?.id;
 
   useEffect(() => {
     // Fetch operation
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:4000/api/pomo/u1");
+        const response = await fetch(
+          `http://localhost:4000/api/pomo/${userid}`
+        );
         const jsonData = await response.json();
         setData(jsonData);
       } catch (error) {
@@ -38,7 +43,7 @@ const Report = () => {
 
       try {
         const response = await fetch(
-          "http://localhost:4000/api/users/user_2bNEmunwXIIVut4RrIFg5EqDRHI"
+          `http://localhost:4000/api/users/${userid}`
         );
         const time = await response.json();
         setTotalTime(time);

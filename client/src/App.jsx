@@ -3,12 +3,6 @@ import { PomodoroContext, PomodoroProvider } from "./PomodoroContext.jsx";
 import Nav from "./components/Nav.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { createClient } from "@supabase/supabase-js";
-
-const supabaseUrl = "https://pmvuryvckkblkkbvaefs.supabase.co";
-const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
-
-const supabase = createClient(supabaseUrl, supabaseKey);
 
 import {
   ClerkProvider,
@@ -20,7 +14,7 @@ import {
   SignUp,
   UserButton,
 } from "@clerk/clerk-react";
-import { Home } from "lucide-react";
+import { Combine, Home } from "lucide-react";
 
 const PUBLISH_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
@@ -44,6 +38,7 @@ function ProtectedPage(props) {
     <>
       {/* {console.log(props.signedIn)} */}
       <Nav signedIn={props.signedIn} />
+
       <HomePage />
     </>
   );
