@@ -76,9 +76,8 @@ const Report = () => {
     extractedTotalTime = totalTime.user.hours;
   }
 
-  const today = `${current.getFullYear()}-${
-    current.getMonth() + 1
-  }-${current.getDate()}`;
+  const today = `${current.getFullYear()}-${current.getMonth() + 1
+    }-${current.getDate()}`;
   console.log(current);
   console.log(today);
 

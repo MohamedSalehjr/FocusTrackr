@@ -1,13 +1,11 @@
 import { useState, useEffect, useContext } from "react";
-
+import { useUser } from "@clerk/clerk-react";
 import { Button } from "../../components/ui/button";
 import ContributionGrid from "../components/ContributionGrid";
 import PomodoroContext, { PomodoroProvider } from "../PomodoroContext.jsx";
-
 import TodoWrapper from "../components/TodoWrapper";
 import useSound from "use-sound";
 import Alarm from "../assets/alarmSound.wav"
-
 import '../../styles/style.css';
 import Test from "./Test.jsx";
 import {
@@ -18,46 +16,47 @@ import {
   CardHeader,
   CardTitle,
 } from "../../components/ui/card";
-
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from "../../components/ui/tabs";
-
 import { useAuth } from "@clerk/clerk-react";
+import { defaultMethod } from "react-router-dom/dist/dom";
+import { Value } from "@radix-ui/react-select";
 
 export const formatTime = (timeInSeconds) => {
-    const minutes = Math.floor(timeInSeconds / 60);
-    const seconds = timeInSeconds % 60;
-    return `${minutes.toString().padStart(2, "0")}:${seconds
-      .toString()
-      .padStart(2, "0")}`;
-  };
+  const minutes = Math.floor(timeInSeconds / 60);
+  const seconds = timeInSeconds % 60;
+  return `${minutes.toString().padStart(2, "0")}:${seconds
+    .toString()
+    .padStart(2, "0")}`;
+};
 
 export default function HomePage() {
-//   const [pomodoro, setPomodoro] = useState(1500);
-//   const [shortBreak, setshortBreak] = useState(300);
-//   const [longBreak, setlongBreak] = useState(900);
+  //   const [pomodoro, setPomodoro] = useState(1500);
+  //   const [shortBreak, setshortBreak] = useState(300);
+  //   const [longBreak, setlongBreak] = useState(900);
 
-const { isLoaded, userId, sessionId, getToken } = useAuth();
+  const { isLoaded, userId, sessionId, getToken } = useAuth();
 
-const { pomodoro, shortBreak, longBreak} = useContext(PomodoroContext);
+  const { pomodoro, shortBreak, longBreak } = useContext(PomodoroContext);
 
-    // const current = new Date();
+  // const current = new Date();
 
-    // console.log(
-    // `${current.getFullYear()}-${current.getMonth()}-${current.getDate()}`
-    // );
-  
+  // console.log(
+  // `${current.getFullYear()}-${current.getMonth()}-${current.getDate()}`
+  // );
 
+  const { user } = useUser();
   const [seconds, setSeconds] = useState(1500);
   const [isActive, setIsActive] = useState(false);
   const [backupSeconds, setBackupSeconds] = useState()
   const [paused, setPaused] = useState(false);
+  const userid = user?.id;
 
-  const [play, {stop}] = useSound(Alarm)
+  const [play, { stop }] = useSound(Alarm)
 
 
   let hidden = isActive ? "block" : "hidden";
@@ -70,11 +69,25 @@ const { pomodoro, shortBreak, longBreak} = useContext(PomodoroContext);
         setSeconds((prevSeconds) => prevSeconds - 1);
       }, 1000);
     } else if (seconds === 0) {
-        play()
-        handleStopTimer(backupSeconds)
+      play()
+      handleStopTimer(backupSeconds)
       setIsActive(false);
+      const postData = async () => {
+        try {
+          const response = await fetch("http://localhost:4000/api/pomo/postpomo", {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(Value),
+          }
+          )
+        } catch (error) {
+          console.error("error posting data", error)
+        }
+      }
+      postData();
     }
-
     return () => clearInterval(interval); // Clean up interval on unmount
   }, [isActive, seconds, paused]);
 
@@ -119,13 +132,13 @@ const { pomodoro, shortBreak, longBreak} = useContext(PomodoroContext);
               </CardTitle>
             </CardHeader>
             <div className="flex justify-center gap-4">
-              { !isActive &&
+              {!isActive &&
                 <Button
-                className="mt-6 w-1/3 self-center"
-                onClick={() => handleStartTimer(pomodoro)}
-              >
-                Start
-              </Button>
+                  className="mt-6 w-1/3 self-center"
+                  onClick={() => handleStartTimer(pomodoro)}
+                >
+                  Start
+                </Button>
               }
 
               <Button
@@ -136,15 +149,15 @@ const { pomodoro, shortBreak, longBreak} = useContext(PomodoroContext);
               >
                 {paused ? "Resume" : "Pause"}
               </Button>
-             {
-              isActive &&
-              <Button
-                className={`mt-6 w-1/3 self-center ${hidden}`}
-                onClick={() => handleStopTimer(pomodoro)}
-              >
-                Skip
-              </Button>
-             } 
+              {
+                isActive &&
+                <Button
+                  className={`mt-6 w-1/3 self-center ${hidden}`}
+                  onClick={() => handleStopTimer(pomodoro)}
+                >
+                  Skip
+                </Button>
+              }
             </div>
           </Card>
         </TabsContent>
@@ -197,9 +210,9 @@ const { pomodoro, shortBreak, longBreak} = useContext(PomodoroContext);
       </Tabs>
       <TodoWrapper />
 
-   
-        {/* <iframe className="mt-10 mx-auto rounded-lg max-w-md" src="https://open.spotify.com/embed/playlist/0vvXsWCC9xrXsKd4FyS8kM?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowFullScreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe> */}
-      
+
+      {/* <iframe className="mt-10 mx-auto rounded-lg max-w-md" src="https://open.spotify.com/embed/playlist/0vvXsWCC9xrXsKd4FyS8kM?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowFullScreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe> */}
+
     </div>
   );
 }
