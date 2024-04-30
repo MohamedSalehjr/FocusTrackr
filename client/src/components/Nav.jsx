@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { PomodoroContext } from "../PomodoroContext.jsx";
 import { formatTime } from "../pages/HomePage.jsx";
 import Report from "./Report.jsx";
@@ -17,6 +17,7 @@ import { UserButton } from "@clerk/clerk-react";
 
 export default function Nav(props) {
   const {
+    setPomodoro,
     pomodoro,
     shortBreak,
     longBreak,
@@ -76,8 +77,7 @@ export default function Nav(props) {
                         id="grid-first-name"
                         type="number"
                         placeholder={formatTime(pomodoro)}
-                        onChange={(e) => changePomodoro(e.target.value)}
-                      />
+                        onChange={(e) => changePomodoro(e.target.value)} />
                     </div>
                     <div class="w-full md:w-1/3 px-3">
                       <label

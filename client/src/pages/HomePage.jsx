@@ -7,7 +7,6 @@ import TodoWrapper from "../components/TodoWrapper";
 import useSound from "use-sound";
 import Alarm from "../assets/alarmSound.wav"
 import '../../styles/style.css';
-import Test from "./Test.jsx";
 import {
   Card,
   CardContent,
@@ -23,7 +22,7 @@ import {
   TabsTrigger,
 } from "../../components/ui/tabs";
 import { useAuth } from "@clerk/clerk-react";
-import { defaultMethod } from "react-router-dom/dist/dom";
+// import { defaultMethod } from "react-router-dom/dist/dom";
 import { Value } from "@radix-ui/react-select";
 
 export const formatTime = (timeInSeconds) => {
@@ -127,8 +126,8 @@ export default function HomePage() {
         <TabsContent value="pomodoro">
           <Card className="w-[400px] py-10 flex flex-col justify-center">
             <CardHeader>
-              <CardTitle className="self-center text-6xl">
-                {formatTime(seconds)}
+              <CardTitle className="self-center text-8xl">
+                {formatTime(pomodoro)}
               </CardTitle>
             </CardHeader>
             <div className="flex justify-center gap-4">
@@ -164,8 +163,8 @@ export default function HomePage() {
         <TabsContent value="shortBreak">
           <Card className="w-[400px] py-10 flex flex-col justify-center">
             <CardHeader>
-              <CardTitle className="self-center text-6xl">
-                {formatTime(seconds)}
+              <CardTitle className="self-center text-8xl">
+                {formatTime(shortBreak)}
               </CardTitle>
             </CardHeader>
             <div className="flex justify-center gap-4">
@@ -187,8 +186,8 @@ export default function HomePage() {
         <TabsContent value="longBreak">
           <Card className="w-[400px] py-10 flex flex-col justify-center">
             <CardHeader>
-              <CardTitle className="self-center text-6xl">
-                {formatTime(seconds)}
+              <CardTitle className="self-center text-8xl">
+                {formatTime(longBreak)}
               </CardTitle>
             </CardHeader>
             <div className="flex justify-center gap-4">

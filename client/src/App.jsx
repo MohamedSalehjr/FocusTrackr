@@ -36,7 +36,6 @@ function PublicPage(props) {
 function ProtectedPage(props) {
   return (
     <>
-      {/* {console.log(props.signedIn)} */}
       <Nav signedIn={props.signedIn} />
 
       <HomePage />
