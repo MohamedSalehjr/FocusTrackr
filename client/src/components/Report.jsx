@@ -97,7 +97,7 @@ const Report = () => {
             </CardHeader>
           </Card>
           <DialogHeader>
-            <DialogTitle>Heatmap</DialogTitle>
+            <DialogTitle>Focus Grid</DialogTitle>
           </DialogHeader>
           <CalendarHeatmap
             className=""
