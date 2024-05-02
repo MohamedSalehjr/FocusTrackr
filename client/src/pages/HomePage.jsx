@@ -24,6 +24,7 @@ import {
 import { useAuth } from "@clerk/clerk-react";
 // import { defaultMethod } from "react-router-dom/dist/dom";
 import { Value } from "@radix-ui/react-select";
+import { hoursToMinutes } from "date-fns";
 
 export const formatTime = (timeInSeconds) => {
   const minutes = Math.floor(timeInSeconds / 60);
@@ -40,7 +41,7 @@ export default function HomePage() {
 
   const { isLoaded, userId, sessionId, getToken } = useAuth();
 
-  const { pomodoro, shortBreak, longBreak } = useContext(PomodoroContext);
+  const { setPomodoro, pomodoro, shortBreak, longBreak } = useContext(PomodoroContext);
 
   // const current = new Date();
 
@@ -56,9 +57,17 @@ export default function HomePage() {
   const userid = user?.id;
 
   const [play, { stop }] = useSound(Alarm)
-
+  const [formData, setFormData] = useState({
+    creator: userid,
+    hours: 0,
+    count: 1
+  })
 
   let hidden = isActive ? "block" : "hidden";
+
+  useEffect(() => {
+    setSeconds(pomodoro)
+  }, [pomodoro])
 
   useEffect(() => {
     let interval;
@@ -66,11 +75,18 @@ export default function HomePage() {
     if (isActive && seconds > 0 && !paused) {
       interval = setInterval(() => {
         setSeconds((prevSeconds) => prevSeconds - 1);
+
       }, 1000);
     } else if (seconds === 0) {
       play()
       handleStopTimer(backupSeconds)
       setIsActive(false);
+      setFormData(
+        {
+          ...formData,
+          [hours]: 1
+        }
+      )
       const postData = async () => {
         try {
           const response = await fetch("http://localhost:4000/api/pomo/postpomo", {
@@ -78,7 +94,7 @@ export default function HomePage() {
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify(Value),
+            body: JSON.stringify(formData),
           }
           )
         } catch (error) {
@@ -127,7 +143,7 @@ export default function HomePage() {
           <Card className="w-[400px] py-10 flex flex-col justify-center">
             <CardHeader>
               <CardTitle className="self-center text-8xl">
-                {formatTime(pomodoro)}
+                {formatTime(seconds)}
               </CardTitle>
             </CardHeader>
             <div className="flex justify-center gap-4">
@@ -164,7 +180,7 @@ export default function HomePage() {
           <Card className="w-[400px] py-10 flex flex-col justify-center">
             <CardHeader>
               <CardTitle className="self-center text-8xl">
-                {formatTime(shortBreak)}
+                {formatTime(seconds)}
               </CardTitle>
             </CardHeader>
             <div className="flex justify-center gap-4">
@@ -187,7 +203,7 @@ export default function HomePage() {
           <Card className="w-[400px] py-10 flex flex-col justify-center">
             <CardHeader>
               <CardTitle className="self-center text-8xl">
-                {formatTime(longBreak)}
+                {formatTime(seconds)}
               </CardTitle>
             </CardHeader>
             <div className="flex justify-center gap-4">

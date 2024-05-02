@@ -26,7 +26,7 @@ export function PomodoroProvider({ children }) {
 
 
   return (
-    <PomodoroContext.Provider value={{ pomodoro, shortBreak, longBreak, changePomodoro, changeLongBreak, changeShortBreak }}>{children}</PomodoroContext.Provider>
+    <PomodoroContext.Provider value={{ pomodoro, shortBreak, longBreak, changePomodoro, changeLongBreak, changeShortBreak, setPomodoro }}>{children}</PomodoroContext.Provider>
   )
 }
 
