@@ -1,136 +1,136 @@
 const HttpError = require('../models/http-error');
 const bodyParser = require('body-parser');
 const {
-    validationResult
+  validationResult
 } = require('express-validator')
 const mongoose = require('mongoose');
 const Pomo = require('../models/pomo');
 const User = require('../models/users');
 
 const {
-    Webhook
+  Webhook
 } = require("svix")
 
 const getPomoById = async (req, res, next) => {
-    const pomoId = req.params.pid; // {id: u1}  
+  const pomoId = req.params.pid; // {id: u1}  
 
-    let pomo;
-    try {
-        pomo = await Pomo.find({
-            creator: pomoId
-        });
+  let pomo;
+  try {
+    pomo = await Pomo.find({
+      creator: pomoId
+    });
 
-    } catch (error) {
-        const err = new HttpError("Something went wrong could not find pomo", 500)
-        return next(err)
-    }
+  } catch (error) {
+    const err = new HttpError("Something went wrong could not find pomo", 500)
+    return next(err)
+  }
 
-    if (!pomo) {
-        const error = new HttpError('Could not find pomo records for the provided id', 404)
-        return next(error)
-    } else {
-        res.json({
-            pomo: pomo.map(pomo => pomo.toObject({
-                getters: true
-            }))
-        })
-    }
+  if (!pomo) {
+    const error = new HttpError('Could not find pomo records for the provided id', 404)
+    return next(error)
+  } else {
+    res.json({
+      pomo: pomo.map(pomo => pomo.toObject({
+        getters: true
+      }))
+    })
+  }
 
 
 }
 const updateUserHours = async (creator, hours) => {
 
-    let existingUser;
-    try {
-        existingUser = await User.findOne({
-            creator: creator
-        })
-    } catch (err) {
-        const error = new HttpError("could not update users hours", 500)
-        return next(error)
-    }
+  let existingUser;
+  try {
+    existingUser = await User.findOne({
+      creator: creator
+    })
+  } catch (err) {
+    const error = new HttpError("could not update users hours", 500)
+    return next(error)
+  }
 
-    if (existingUser) {
-        const newHours = existingUser.hours + hours
-        existingUser.hours = newHours;
-    }
+  if (existingUser) {
+    const newHours = existingUser.hours + hours
+    existingUser.hours = newHours;
+  }
 
-    try {
-        await existingUser.save()
-    } catch (error) {
-        const err = new HttpError("Could not update User", 500)
-        next(err)
-    }
+  try {
+    await existingUser.save()
+  } catch (error) {
+    const err = new HttpError("Could not update User", 500)
+    next(err)
+  }
 
 }
 
 const postPomo = async (req, res, next) => {
-    const {
-        creator,
-        hours,
-        count
-    } = req.body;
+  const {
+    creator,
+    hours,
+    count
+  } = req.body;
 
 
-    const current = new Date();
-    const today = `${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate()}`;
-    const date = today
+  const current = new Date();
+  const today = `${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate()}`;
+  const date = today
 
-    let existingPomo
+  let existingPomo
+  try {
+    existingPomo = await Pomo.findOne({
+      date: date,
+      creator: creator
+    })
+  } catch (error) {
+    const err = new HttpError('Signing up failed, please try again later', 500)
+    return next(err)
+  }
+
+  if (existingPomo) {
+
+    const newHours = existingPomo.hours + hours
+    existingPomo.hours = newHours;
+
+    const newCount = existingPomo.count + 1
+    existingPomo.count = newCount;
+
     try {
-        existingPomo = await Pomo.findOne({
-            date: date,
-            creator: creator
-        })
+      await existingPomo.save()
+    } catch (err) {
+      const error = new HttpError("could not update pomo", 500)
+      return next(error)
+    }
+
+    res.status(201).json({
+      pomo: existingPomo.toObject({
+        getters: true
+      })
+    })
+    updateUserHours(creator, hours);
+
+
+  } else {
+    const createdPomo = new Pomo({
+      creator,
+      hours,
+      count,
+      date: date,
+    })
+    try {
+      await createdPomo.save()
     } catch (error) {
-        const err = new HttpError('Signing up failed, please try again laterr', 500)
-        return next(err)
+      const err = new HttpError("Could not create pomo", 500)
+      next(err)
     }
 
-    if (existingPomo) {
-
-        const newHours = existingPomo.hours + hours
-        existingPomo.hours = newHours;
-
-        const newCount = existingPomo.count + 1
-        existingPomo.count = newCount;
-
-        try {
-            await existingPomo.save()
-        } catch (err) {
-            const error = new HttpError("could not update pomo", 500)
-            return next(error)
-        }
-
-        res.status(201).json({
-            pomo: existingPomo.toObject({
-                getters: true
-            })
-        })
-        updateUserHours(creator, hours);
-
-
-    } else {
-        const createdPomo = new Pomo({
-            creator,
-            hours,
-            count,
-            date: date,
-        })
-        try {
-            await createdPomo.save()
-        } catch (error) {
-            const err = new HttpError("Could not create pomo", 500)
-            next(err)
-        }
-
-        res.status(201).json({
-            pomo: createdPomo.toObject({
-                getters: true
-            })
-        })
-        updateUserHours(creator, hours);
-    }
+    res.status(201).json({
+      pomo: createdPomo.toObject({
+        getters: true
+      })
+    })
+    updateUserHours(creator, hours);
+  }
 }
 
 

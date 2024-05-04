@@ -3,13 +3,12 @@ import { useState, useEffect } from "react";
 import { useUser } from "@clerk/clerk-react";
 import "react-calendar-heatmap/dist/styles.css";
 import "react-tooltip/dist/react-tooltip.css";
-import { Tooltip } from "react-tooltip";
+import { Tooltip as ReactTooltip } from 'react-tooltip';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
-  DialogTitle,
-  DialogTrigger,
+  DialogTitle, DialogTrigger,
 } from "../../components/ui/dialog";
 
 import {
@@ -110,7 +109,15 @@ const Report = () => {
               }
               return `color-github-${value.count}`;
             }}
+            showWeekdayLabels={true}
+            tooltipDataAttrs={(value) => {
+              return {
+                'data-tip': `Pomo count: ${value.count
+                  }`,
+              };
+            }}
           />
+          <ReactTooltip />
         </DialogContent>
       </Dialog>
     </>

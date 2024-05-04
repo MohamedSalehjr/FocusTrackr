@@ -14,7 +14,7 @@ import {
   SignUp,
   UserButton,
 } from "@clerk/clerk-react";
-import { Combine, Home } from "lucide-react";
+import { Combine, Home, Signal } from "lucide-react";
 
 const PUBLISH_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
@@ -51,12 +51,21 @@ function App() {
       <PomodoroProvider>
         {/* <Nav/> */}
         <Routes>
-          <Route path="/" element={<PublicPage signedIn={false} />} />
-
+          {/* <Route path="/" element={<PublicPage signedIn={false} />} /> */}
+          <Route path="/" element={
+            <>
+              <SignedIn>
+                <ProtectedPage signedIn={true} />
+              </SignedIn>
+              <SignedOut>
+                <PublicPage signedIn={false} />
+              </SignedOut>
+            </>
+          } />
           <Route
             path="/sign-in/*"
             element={
-              <SignIn redirectUrl="/protected" routing="path" path="/sign-in" />
+              <SignIn redirectUrl="/" routing="path" path="/sign-in" />
             }
           />
 
@@ -65,19 +74,19 @@ function App() {
             element={<SignUp routing="path" path="/sign-up" />}
           />
 
-          <Route
-            path="/protected"
-            element={
-              <>
-                <SignedIn>
-                  <ProtectedPage signedIn={true} />
-                </SignedIn>
-                <SignedOut>
-                  <PublicPage signedIn={false} />
-                </SignedOut>
-              </>
-            }
-          />
+          {/* <Route */}
+          {/*   path="/protected" */}
+          {/*   element={ */}
+          {/*     <> */}
+          {/*       <SignedIn> */}
+          {/*         <ProtectedPage signedIn={true} /> */}
+          {/*       </SignedIn> */}
+          {/*       <SignedOut> */}
+          {/*         <PublicPage signedIn={false} /> */}
+          {/*       </SignedOut> */}
+          {/*     </> */}
+          {/*   } */}
+          {/* /> */}
         </Routes>
       </PomodoroProvider>
     </ClerkProvider>
