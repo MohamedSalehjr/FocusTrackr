@@ -2,8 +2,7 @@ import CalendarHeatmap from "react-calendar-heatmap";
 import { useState, useEffect } from "react";
 import { useUser } from "@clerk/clerk-react";
 import "react-calendar-heatmap/dist/styles.css";
-import "react-tooltip/dist/react-tooltip.css";
-import { Tooltip as ReactTooltip } from 'react-tooltip';
+import { Tooltip } from 'react-tooltip';
 import {
   Dialog,
   DialogContent,
@@ -17,6 +16,7 @@ import {
   CardHeader,
   CardTitle,
 } from "../../components/ui/card";
+import { Value } from "@radix-ui/react-select";
 
 const Report = () => {
   const current = new Date();
@@ -26,6 +26,9 @@ const Report = () => {
   const [data, setData] = useState(null);
   const [totalTime, setTotalTime] = useState(0);
   const userid = user?.id;
+  const [tooltip, setTooltip] = useState();
+  const [tooltipDate, setTooltipDate] = useState();
+  const [tooltipActive, setTooltipActive] = useState(false);
 
   useEffect(() => {
     // Fetch operation
@@ -96,7 +99,7 @@ const Report = () => {
             </CardHeader>
           </Card>
           <DialogHeader>
-            <DialogTitle>Focus Grid</DialogTitle>
+            <DialogTitle>Pomo Grid</DialogTitle>
           </DialogHeader>
           <CalendarHeatmap
             className=""
@@ -109,15 +112,32 @@ const Report = () => {
               }
               return `color-github-${value.count}`;
             }}
+            onMouseOver={(event, value) => {
+              if (value.count !== null && typeof value.count !== undefined) {
+                setTooltipActive(true)
+                setTooltipDate(value.date)
+                setTooltip(value.count)
+              } else {
+
+              }
+            }}
             showWeekdayLabels={true}
             tooltipDataAttrs={(value) => {
-              return {
-                'data-tip': `Pomo count: ${value.count
-                  }`,
-              };
+              return { 'data-tooltip': 'Pomos:' + value.count }
             }}
-          />
-          <ReactTooltip />
+            data-tooltip-id="data-tooltip"
+            data-tooltip-content="hello" />
+          <Tooltip id="data-tooltip" />
+
+          <Card className={`w-1/2 mx-auto ${tooltipActive ? '' : 'hidden'} `}>
+            <CardHeader className="">
+              <CardDescription className="self-center">
+                {`${tooltipDate} Pomos: ${tooltip}`}
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+
         </DialogContent>
       </Dialog>
     </>
