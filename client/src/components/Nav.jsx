@@ -32,7 +32,7 @@ export default function Nav(props) {
       <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4">
         <Link to="/" className="flex items-center">
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-            FocusTrackr
+            PomoTrackr
           </span>
         </Link>
         <div className="flex items-center gap-4">
@@ -51,10 +51,6 @@ export default function Nav(props) {
               <Report />
             </div>
           )}
-
-          <div>
-            <UserButton afterSignOutUrl="/" />
-          </div>
 
           <Dialog>
             <DialogTrigger className="mt-2">
@@ -114,6 +110,11 @@ export default function Nav(props) {
               </DialogHeader>
             </DialogContent>
           </Dialog>
+          <div>
+            <UserButton afterSignOutUrl="/" />
+          </div>
+
+
         </div>
       </div>
     </nav>

@@ -53,6 +53,7 @@ export default function HomePage() {
   const [isActive, setIsActive] = useState(false);
   const [backupSeconds, setBackupSeconds] = useState()
   const [paused, setPaused] = useState(false);
+  const [min, setMin] = useState()
   const userid = user?.id;
 
   const [play, { stop }] = useSound(Alarm)
@@ -62,8 +63,8 @@ export default function HomePage() {
     count: 1
   })
 
-  let hidden = isActive ? "block" : "hidden";
 
+  let hidden = isActive ? "block" : "hidden";
   useEffect(() => {
     setSeconds(pomodoro)
   }, [pomodoro])
@@ -80,27 +81,30 @@ export default function HomePage() {
       play()
       handleStopTimer(backupSeconds)
       setIsActive(false);
+      setMin(backupSeconds / 60);
       setFormData(
         {
           ...formData,
-          [hours]: 1
+          hours: min
         }
       )
-      const postData = async () => {
-        try {
-          const response = await fetch("http://localhost:4000/api/pomo/postpomo", {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData),
-          }
-          )
-        } catch (error) {
-          console.error("error posting data", error)
-        }
-      }
-      postData();
+
+      console.log(formData)
+      // const postData = async () => {
+      //   try {
+      //     const response = await fetch("http://localhost:4000/api/pomo/postpomo", {
+      //       method: 'POST',
+      //       headers: {
+      //         'Content-Type': 'application/json',
+      //       },
+      //       body: JSON.stringify(formData),
+      //     }
+      //     )
+      //   } catch (error) {
+      //     console.error("error posting data", error)
+      //   }
+      // }
+      // postData();
     }
     return () => clearInterval(interval); // Clean up interval on unmount
   }, [isActive, seconds, paused]);
