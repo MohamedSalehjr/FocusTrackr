@@ -9,9 +9,6 @@ import Alarm from "../assets/alarmSound.wav"
 import '../../styles/style.css';
 import {
   Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "../../components/ui/card";
@@ -23,7 +20,6 @@ import {
 } from "../../components/ui/tabs";
 import { useAuth } from "@clerk/clerk-react";
 // import { defaultMethod } from "react-router-dom/dist/dom";
-import { hoursToMinutes } from "date-fns";
 
 export const formatTime = (timeInSeconds) => {
   const minutes = Math.floor(timeInSeconds / 60);
@@ -53,17 +49,22 @@ export default function HomePage() {
   const [isActive, setIsActive] = useState(false);
   const [backupSeconds, setBackupSeconds] = useState()
   const [paused, setPaused] = useState(false);
-  const [min, setMin] = useState()
+  const [min, setMin] = useState(5)
+  const [pomo, setPomo] = useState(false);
   const userid = user?.id;
 
   const [play, { stop }] = useSound(Alarm)
-  const [formData, setFormData] = useState({
+  // const [formData, setFormData] = useState({
+  //   creator: userid,
+  //   hours: 0,
+  //   count: 1
+  // })
+  //
+  let formData = {
     creator: userid,
     hours: 0,
     count: 1
-  })
-
-
+  }
   let hidden = isActive ? "block" : "hidden";
   useEffect(() => {
     setSeconds(pomodoro)
@@ -81,15 +82,11 @@ export default function HomePage() {
       play()
       handleStopTimer(backupSeconds)
       setIsActive(false);
-      setMin(backupSeconds / 60);
-      setFormData(
-        {
-          ...formData,
-          hours: min
-        }
-      )
-
-      console.log(formData)
+      if (pomo) {
+        formData.hours = backupSeconds / 60;
+        console.log(formData)
+        setPomo(false)
+      }
       // const postData = async () => {
       //   try {
       //     const response = await fetch("http://localhost:4000/api/pomo/postpomo", {
@@ -110,8 +107,8 @@ export default function HomePage() {
   }, [isActive, seconds, paused]);
 
   const handleStartTimer = (time) => {
-    setSeconds(time);
     setBackupSeconds(time)
+    setSeconds(time);
     setIsActive(true);
   };
 
@@ -153,7 +150,11 @@ export default function HomePage() {
               {!isActive &&
                 <Button
                   className="mt-6 w-1/3 self-center"
-                  onClick={() => handleStartTimer(pomodoro)}
+                  onClick={() => {
+                    handleStartTimer(pomodoro)
+                    setPomo(true)
+                  }
+                  }
                 >
                   Start
                 </Button>
