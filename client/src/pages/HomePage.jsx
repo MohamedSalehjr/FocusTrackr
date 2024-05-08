@@ -84,24 +84,29 @@ export default function HomePage() {
       setIsActive(false);
       if (pomo) {
         formData.hours = backupSeconds / 60;
-        console.log(formData)
+        // console.log(formData)
         setPomo(false)
       }
-      // const postData = async () => {
-      //   try {
-      //     const response = await fetch("http://localhost:4000/api/pomo/postpomo", {
-      //       method: 'POST',
-      //       headers: {
-      //         'Content-Type': 'application/json',
-      //       },
-      //       body: JSON.stringify(formData),
-      //     }
-      //     )
-      //   } catch (error) {
-      //     console.error("error posting data", error)
-      //   }
-      // }
-      // postData();
+      const postData = async () => {
+        try {
+          const response = await fetch("http://localhost:4000/api/pomo/postpomo", {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+          }
+          )
+          if (!response.ok) {
+            throw new Error('Failed to login');
+          }
+          const data = await response.json();
+          console.log('Successful response')
+        } catch (error) {
+          console.error("error posting data", error)
+        }
+      }
+      postData();
     }
     return () => clearInterval(interval); // Clean up interval on unmount
   }, [isActive, seconds, paused]);
