@@ -113,12 +113,13 @@ const Report = () => {
               return `color-github-${value.count}`;
             }}
             onMouseOver={(event, value) => {
-              if (value.count !== null && typeof value.count !== undefined) {
+              if (value !== null && typeof value !== 'undefined' && value.count !== null && typeof value.count !== 'undefined') {
                 setTooltipActive(true)
                 setTooltipDate(value.date)
                 setTooltip(value.count)
               } else {
-
+                setTooltipDate("No")
+                setTooltip("")
               }
             }}
             showWeekdayLabels={true}
