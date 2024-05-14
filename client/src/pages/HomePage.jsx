@@ -52,7 +52,8 @@ export default function HomePage() {
   const [min, setMin] = useState(5)
   const [pomo, setPomo] = useState(false);
   const userid = user?.id;
-
+  const [elapsedTime, setElapsedTime] = useState(0);
+  const [startTime, setStartTime] = useState(null);
   const [play, { stop }] = useSound(Alarm)
   // const [formData, setFormData] = useState({
   //   creator: userid,
@@ -71,12 +72,18 @@ export default function HomePage() {
   }, [pomodoro])
 
   useEffect(() => {
+    const storedStartTime = localStorage.getItem('startTime');
+    if (storedStartTime) {
+      setStartTime(parseInt(storedStartTime))
+    }
+  })
+
+  useEffect(() => {
     let interval;
 
     if (isActive && seconds > 0 && !paused) {
       interval = setInterval(() => {
         setSeconds((prevSeconds) => prevSeconds - 1);
-
       }, 1000);
     } else if (seconds === 0) {
       play()
@@ -112,6 +119,9 @@ export default function HomePage() {
   }, [isActive, seconds, paused]);
 
   const handleStartTimer = (time) => {
+    const now = Date.now();
+    setStartTime(now);
+    localStorage.setItem('startTime', now)
     setBackupSeconds(time)
     setSeconds(time);
     setIsActive(true);
