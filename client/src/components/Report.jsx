@@ -30,32 +30,33 @@ const Report = () => {
   const [tooltipDate, setTooltipDate] = useState();
   const [tooltipActive, setTooltipActive] = useState(false);
 
+  // Fetch operation
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:4000/api/pomo/${userid}`
+      );
+      const jsonData = await response.json();
+      setData(jsonData);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+
+    try {
+      const response = await fetch(
+        `http://localhost:4000/api/users/${userid}`
+      );
+      const time = await response.json();
+      setTotalTime(time);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+
   useEffect(() => {
-    // Fetch operation
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:4000/api/pomo/${userid}`
-        );
-        const jsonData = await response.json();
-        setData(jsonData);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-
-      try {
-        const response = await fetch(
-          `http://localhost:4000/api/users/${userid}`
-        );
-        const time = await response.json();
-        setTotalTime(time);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData(); // Call the fetch function
-  }, []);
+    fetchData();
+  }, [])
 
   if (!data) {
     // handle empty response
@@ -86,7 +87,7 @@ const Report = () => {
   return (
     <>
       <Dialog>
-        <DialogTrigger className={` `}> Report</DialogTrigger>
+        <DialogTrigger className={` `} > Report</DialogTrigger>
         <DialogContent>
           <Card className="w-1/2 mx-auto">
             <CardHeader className="">
