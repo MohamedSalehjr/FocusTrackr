@@ -66,10 +66,20 @@ export default function HomePage() {
     hours: 0,
     count: 1
   }
+
   let hidden = isActive ? "block" : "hidden";
+
   useEffect(() => {
     setSeconds(pomodoro)
   }, [pomodoro])
+
+  useEffect(() => {
+    setSeconds(shortBreak)
+  }, [shortBreak])
+
+  useEffect(() => {
+    setSeconds(longBreak)
+  }, [longBreak])
 
   useEffect(() => {
     let interval;
