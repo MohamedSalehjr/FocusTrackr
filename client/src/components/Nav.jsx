@@ -4,6 +4,7 @@ import { PomodoroContext } from "../PomodoroContext.jsx";
 import { formatTime } from "../pages/HomePage.jsx";
 import Report from "./Report.jsx";
 import { useAuth } from "@clerk/clerk-react";
+import logo from "../tomato.svg"
 // import "../../styles/style.css"
 import {
   Dialog,
@@ -31,6 +32,7 @@ export default function Nav(props) {
     <nav className="bg-white border-gray-200 dark:bg-gray-900">
       <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4">
         <Link to="/" className="flex items-center">
+          <img alt="logo" src={logo} className="w-8" />
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
             PomoTrackr
           </span>
