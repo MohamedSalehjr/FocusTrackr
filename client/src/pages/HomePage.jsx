@@ -72,13 +72,6 @@ export default function HomePage() {
   }, [pomodoro])
 
   useEffect(() => {
-    const storedStartTime = localStorage.getItem('startTime');
-    if (storedStartTime) {
-      setStartTime(parseInt(storedStartTime))
-    }
-  })
-
-  useEffect(() => {
     let interval;
 
     if (isActive && seconds > 0 && !paused) {
@@ -119,9 +112,6 @@ export default function HomePage() {
   }, [isActive, seconds, paused]);
 
   const handleStartTimer = (time) => {
-    const now = Date.now();
-    setStartTime(now);
-    localStorage.setItem('startTime', now)
     setBackupSeconds(time)
     setSeconds(time);
     setIsActive(true);
