@@ -59,9 +59,6 @@ export default function HomePage() {
     count: 1
   }
 
-  // useEffect(() => {
-  //   setSeconds(pomodoro)
-  // }, [])
   let hidden = isActive ? "block" : "hidden";
 
   useEffect(() => {
