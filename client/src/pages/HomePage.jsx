@@ -49,29 +49,20 @@ export default function HomePage() {
   const [isActive, setIsActive] = useState(false);
   const [backupSeconds, setBackupSeconds] = useState()
   const [paused, setPaused] = useState(false);
-  const [min, setMin] = useState(5)
   const [pomo, setPomo] = useState(false);
   const userid = user?.id;
-  const [elapsedTime, setElapsedTime] = useState(0);
-  const [startTime, setStartTime] = useState(null);
   const [play, { stop }] = useSound(Alarm)
-  // const [formData, setFormData] = useState({
-  //   creator: userid,
-  //   hours: 0,
-  //   count: 1
-  // })
-  //
+
   let formData = {
     creator: userid,
     hours: 0,
     count: 1
   }
 
+  // useEffect(() => {
+  //   setSeconds(pomodoro)
+  // }, [])
   let hidden = isActive ? "block" : "hidden";
-
-  useEffect(() => {
-    setSeconds(pomodoro)
-  }, [pomodoro])
 
   useEffect(() => {
     setSeconds(shortBreak)
@@ -80,6 +71,11 @@ export default function HomePage() {
   useEffect(() => {
     setSeconds(longBreak)
   }, [longBreak])
+
+  useEffect(() => {
+    setSeconds(pomodoro)
+  }, [pomodoro])
+
 
   useEffect(() => {
     let interval;
@@ -178,7 +174,6 @@ export default function HomePage() {
               <Button
                 className={`mt-6 w-1/3 self-center ${hidden}`}
                 //Pause button logic
-                // onClick={() => handleStopTimer(pomodoro)}
                 onClick={() => setPaused(!paused)}
               >
                 {paused ? "Resume" : "Pause"}
