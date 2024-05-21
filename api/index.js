@@ -7,11 +7,12 @@ require('dotenv').config();
 const api = require('./routes/pomo-routes')
 const usersRoutes = require('./routes/user-routes')
 const app = express()
-const port = 4000
+const port = 3000
 const cors = require('cors')
 
 app.use(cors({
-  origin: 'http://localhost:5173'
+  origin: `${process.env.URL}`,
+  methods: ["POST", "GET"]
 }))
 
 app.use(bodyParser.json())
@@ -43,3 +44,5 @@ mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DATABASE_PA
 }).catch(err => {
   console.log(err)
 })
+
+module.exports = app; 

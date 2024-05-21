@@ -34,7 +34,7 @@ const Report = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:4000/api/pomo/${userid}`
+        `http://localhost:3000/api/pomo/${userid}`
       );
       const jsonData = await response.json();
       setData(jsonData);
@@ -44,7 +44,7 @@ const Report = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:4000/api/users/${userid}`
+        `http://localhost:3000/api/users/${userid}`
       );
       const time = await response.json();
       setTotalTime(time);

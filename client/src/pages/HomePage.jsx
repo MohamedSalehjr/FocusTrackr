@@ -92,7 +92,7 @@ export default function HomePage() {
       }
       const postData = async () => {
         try {
-          const response = await fetch("http://localhost:4000/api/pomo/postpomo", {
+          const response = await fetch("http://localhost:3000/api/pomo/postpomo", {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
