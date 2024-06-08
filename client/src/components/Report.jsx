@@ -19,6 +19,8 @@ import {
 import { Value } from "@radix-ui/react-select";
 
 const Report = () => {
+
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
   const current = new Date();
   const { user } = useUser();
   let extractedData;
@@ -34,7 +36,7 @@ const Report = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/pomo/${userid}`
+        `${backendURL}/pomo/${userid}`
       );
       const jsonData = await response.json();
       setData(jsonData);
@@ -44,7 +46,7 @@ const Report = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:3000/api/users/${userid}`
+        `${backendURL}/users/${userid}`
       );
       const time = await response.json();
       setTotalTime(time);
@@ -95,7 +97,7 @@ const Report = () => {
                 {extractedTotalTime}
               </CardTitle>
               <CardDescription className="self-center">
-                Total Time focused
+                Total minutes focused
               </CardDescription>
             </CardHeader>
           </Card>

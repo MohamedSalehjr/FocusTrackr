@@ -44,6 +44,7 @@ export default function HomePage() {
   // `${current.getFullYear()}-${current.getMonth()}-${current.getDate()}`
   // );
 
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
   const { user } = useUser();
   const [seconds, setSeconds] = useState(1500);
   const [isActive, setIsActive] = useState(false);
@@ -92,7 +93,7 @@ export default function HomePage() {
       }
       const postData = async () => {
         try {
-          const response = await fetch("http://localhost:3000/api/pomo/postpomo", {
+          const response = await fetch(`${backendURL}/pomo/postpomo`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
