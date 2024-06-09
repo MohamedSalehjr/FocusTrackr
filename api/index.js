@@ -38,7 +38,7 @@ app.use((error, req, res, next) => {
 
 console.log(process.env.DATABASE_PASS);
 mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DATABASE_PASS}@pomoapi.l4tohfu.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`).then(() => {
-  app.listen(port, () => {
+  app.listen(process.env.PORT || port, () => {
     console.log(`Example app listening on port ${port}`)
   })
 }).catch(err => {
