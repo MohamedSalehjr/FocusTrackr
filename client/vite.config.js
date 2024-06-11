@@ -11,7 +11,7 @@ export default defineConfig({
     },
   },
   define: {
-    __APP_ENV__: process.env.VITE_BACKEND_URL,
-    __APP_ENV__: process.env.VITE_CLERK_PUBLISHABLE_KEY
+    __Backend_ENV__: process.env.VITE_BACKEND_URL,
+    __Clerk_ENV__: process.env.VITE_CLERK_PUBLISHABLE_KEY
   }
 })
