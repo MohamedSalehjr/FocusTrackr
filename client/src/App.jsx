@@ -17,7 +17,7 @@ import {
 import { Combine, Home, Signal } from "lucide-react";
 
 const PUBLISH_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
-// deploy test
+
 if (!PUBLISH_KEY) {
   throw new Error("Missing Publishable Key");
 }
@@ -89,7 +89,7 @@ function App() {
           {/* /> */}
         </Routes>
       </PomodoroProvider>
-      {/* <Analytics /> */}
+      <Analytics />
     </ClerkProvider>
   );
 }
