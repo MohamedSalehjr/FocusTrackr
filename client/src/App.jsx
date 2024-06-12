@@ -3,7 +3,7 @@ import { PomodoroContext, PomodoroProvider } from "./PomodoroContext.jsx";
 import Nav from "./components/Nav.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { Analytics } from '@vercel/analytics/react';
+// import { Analytics } from '@vercel/analytics/react';
 import {
   ClerkProvider,
   useUser,
@@ -89,7 +89,7 @@ function App() {
           {/* /> */}
         </Routes>
       </PomodoroProvider>
-      <Analytics />
+      {/* <Analytics /> */}
     </ClerkProvider>
   );
 }
