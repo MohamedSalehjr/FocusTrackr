@@ -75,9 +75,9 @@ function App() {
             path="/sign-up/*"
             element={<SignUp routing="path" path="/sign-up" />}
           />
-          <Route path="/Terms">
-            <Terms />
-          </Route>
+          <Route path="/Terms"
+            element={<Terms />}
+          />
           {/* testing out preview branch */}
           {/* <Route */}
           {/*   path="/protected" */}

@@ -2,8 +2,7 @@
 
 export default function Terms() {
   return (
-    <body>
-
+    <>
       <h1>Terms & Conditions</h1>
       <p>Updated at 2024-06-12</p>
 
@@ -131,8 +130,7 @@ export default function Terms() {
 
       <h1>Contact Us</h1>
       <p>Don't hesitate to contact us if you have any questions.</p>
-      <ul><li>Via Email:  <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="adddc2c0c2d9dfcccec6dfedcac0ccc4c183cec2c0">[email&#160;protected]</a></li>
-      </ul><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+    </>
   )
 }
 
