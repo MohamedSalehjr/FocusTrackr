@@ -3,7 +3,7 @@ import { PomodoroContext, PomodoroProvider } from "./PomodoroContext.jsx";
 import Nav from "./components/Nav.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import { Routes, Route, useNavigate } from "react-router-dom";
-// import { Analytics } from '@vercel/analytics/react';
+import { Analytics } from '@vercel/analytics/react';
 import {
   ClerkProvider,
   useUser,
@@ -15,6 +15,7 @@ import {
   UserButton,
 } from "@clerk/clerk-react";
 import { Combine, Home, Signal } from "lucide-react";
+import Terms from "./pages/Terms.jsx"
 
 const PUBLISH_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
@@ -51,6 +52,7 @@ function App() {
       <PomodoroProvider>
         {/* <Nav/> */}
         <Routes>
+
           {/* <Route path="/" element={<PublicPage signedIn={false} />} /> */}
           <Route path="/" element={
             <>
@@ -73,6 +75,9 @@ function App() {
             path="/sign-up/*"
             element={<SignUp routing="path" path="/sign-up" />}
           />
+          <Route path="/Terms">
+            <Terms />
+          </Route>
           {/* testing out preview branch */}
           {/* <Route */}
           {/*   path="/protected" */}
@@ -89,7 +94,7 @@ function App() {
           {/* /> */}
         </Routes>
       </PomodoroProvider>
-      {/* <Analytics /> */}
+      <Analytics />
     </ClerkProvider>
   );
 }
