@@ -16,6 +16,8 @@ import {
 } from "@clerk/clerk-react";
 import { Combine, Home, Signal } from "lucide-react";
 import Terms from "./pages/Terms.jsx"
+import Privacy from "./pages/Privacy"
+import Footer from "./components/Footer.jsx";
 
 const PUBLISH_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
@@ -30,6 +32,7 @@ function PublicPage(props) {
     <>
       <Nav signedIn={props.signedOut} />
       <HomePage />
+      <Footer />
     </>
   );
 }
@@ -38,8 +41,8 @@ function ProtectedPage(props) {
   return (
     <>
       <Nav signedIn={props.signedIn} />
-
       <HomePage />
+      <Footer />
     </>
   );
 }
@@ -75,8 +78,11 @@ function App() {
             path="/sign-up/*"
             element={<SignUp routing="path" path="/sign-up" />}
           />
-          <Route path="/Terms"
+          <Route path="/toc"
             element={<Terms />}
+          />
+          <Route path="/privacy"
+            element={<Privacy />}
           />
           {/* testing out preview branch */}
           {/* <Route */}
