@@ -8,8 +8,8 @@ export const PomodoroContext = createContext();
 export function PomodoroProvider({ children }) {
 
   const [pomodoro, setPomodoro] = useState(1500)
-  const [shortBreak, setShortBreak] = useState(900)
-  const [longBreak, setLongBreak] = useState(300)
+  const [shortBreak, setShortBreak] = useState(300)
+  const [longBreak, setLongBreak] = useState(900)
   const changePomodoro = (pomo) => {
     pomo = pomo * 60;
     setPomodoro(pomo);
