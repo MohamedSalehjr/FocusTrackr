@@ -38,6 +38,36 @@ const getPomoById = async (req, res, next) => {
 
 
 }
+const getTodaysPomo = async (req, res, next) => {
+  const pomoId = req.params.pid;
+
+  let pomo;
+  const current = new Date();
+  const today = `${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate()}`;
+  const date = today
+
+
+  try {
+    pomo = await Pomo.find({
+      creator: pomoId,
+      date: date
+    })
+  } catch (error) {
+    const err = new HttpError("Something went wrong could not find pomo", 500)
+    return next(err)
+  }
+
+  if (!pomo) {
+    const error = new HttpError('Could not find pomo records for the provided id', 404)
+    return next(error)
+  } else {
+    res.json({
+      pomo
+    })
+  }
+
+  console.log(pomo)
+}
 const updateUserHours = async (creator, hours) => {
 
   let existingUser;
@@ -301,5 +331,6 @@ const postPomo = async (req, res, next) => {
 
 exports.getPomoById = getPomoById
 exports.postPomo = postPomo;
+exports.getTodaysPomo = getTodaysPomo;
 // exports.postIntialPomo = postIntialPomo;
 // exports.patchPomoByDate = patchPomoByDate

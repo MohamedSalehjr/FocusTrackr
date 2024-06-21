@@ -25,6 +25,8 @@ const Report = () => {
   const { user } = useUser();
   let extractedData;
   let extractedTotalTime;
+  let todaysTotalTime = 0;
+  const [todaysPomo, setTodaysPomo] = useState(null);
   const [data, setData] = useState(null);
   const [totalTime, setTotalTime] = useState(0);
   const userid = user?.id;
@@ -53,12 +55,24 @@ const Report = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+
+    try {
+      const response = await fetch(
+        `${backendURL}/pomo/today/${userid}`
+      );
+      const todaysTime = await response.json();
+      setTodaysPomo(todaysTime);
+      // console.log(todaysTime)
+    } catch (error) {
+      console.error("Error fetching data:", error)
+    }
   };
 
 
   useEffect(() => {
     fetchData();
   }, [])
+
 
   if (!data) {
     // handle empty response
@@ -81,26 +95,45 @@ const Report = () => {
     extractedTotalTime = totalTime.user.hours;
   }
 
+  if (todaysPomo) {
+    if (todaysPomo.pomo.length == 0) {
+    } else {
+      todaysTotalTime = todaysPomo.pomo[0].hours;
+    }
+  }
+
   const today = `${current.getFullYear()}-${current.getMonth() + 1
     }-${current.getDate()}`;
-  console.log(current);
-  console.log(today);
-
+  // console.log(current);
+  // console.log(today);
+  //
   return (
     <>
       <Dialog>
         <DialogTrigger className={` `} > Report</DialogTrigger>
         <DialogContent>
-          <Card className="w-1/2 mx-auto">
-            <CardHeader className="">
-              <CardTitle className="self-center text-5xl">
-                {extractedTotalTime}
-              </CardTitle>
-              <CardDescription className="self-center">
-                Total minutes focused
-              </CardDescription>
-            </CardHeader>
-          </Card>
+          <div className="flex p-8 gap-4">
+            <Card className="w-1/2 mx-auto">
+              <CardHeader className="">
+                <CardTitle className="self-center text-5xl">
+                  {todaysTotalTime}
+                </CardTitle>
+                <CardDescription className="self-center">
+                  Total minutes today
+                </CardDescription>
+              </CardHeader>
+            </Card>
+            <Card className="w-1/2 mx-auto">
+              <CardHeader className="">
+                <CardTitle className="self-center text-5xl">
+                  {extractedTotalTime}
+                </CardTitle>
+                <CardDescription className="self-center">
+                  Total minutes focused
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          </div>
           <DialogHeader>
             <DialogTitle>Pomo Grid</DialogTitle>
           </DialogHeader>
