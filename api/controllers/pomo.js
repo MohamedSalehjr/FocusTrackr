@@ -66,7 +66,7 @@ const getTodaysPomo = async (req, res, next) => {
     })
   }
 
-  console.log(pomo)
+  // console.log(pomo)
 }
 const updateUserHours = async (creator, hours) => {
 
