@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.light {
+  --background: #ffffff;
+  --text: #020617;
+  --tabbg: #F1F5F9;
+  --buttonbg: #020617;
+  --buttontxt: #fff;
+  --textsecondary: #64758B;
+  --border: #E2E8F0;
+}
+
+.dark {
+  --background: #ffffff;
+  --text: #fff;
+  --tabbg: #F1F5F9;
+  --buttonbg: #020617;
+  --buttontxt: #fff;
+  --textsecondary: #64758B;
+  --border: #E2E8F0;
+}

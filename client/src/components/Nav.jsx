@@ -33,7 +33,7 @@ export default function Nav(props) {
       <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4">
         <Link to="/" className="flex items-center">
           <img alt="logo" src={logo} className="w-8" />
-          <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+          <span className="self-center text-2xl font-semibold whitespace-nowrap text-textcolor">
             PomoTrackr
           </span>
         </Link>
@@ -42,7 +42,7 @@ export default function Nav(props) {
           {!props.signedIn && (
             <Link
               to="/sign-in"
-              className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0  "
+              className="block py-2 pl-3 pr-4 text-textcolor rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0  "
             >
               Login
             </Link>

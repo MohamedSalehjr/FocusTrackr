@@ -17,6 +17,15 @@ module.exports = {
       },
     },
     extend: {
+      colors: {
+        background: "var(--background)",
+        textcolor: "var(--text)",
+        tabbg: "var(--tabbg)",
+        buttonbg: "var(--buttonbg)",
+        buttontxt: "var(--buttontxt)",
+        textsecondary: "var(--textsecondary)",
+        border: "var(--var(--border))"
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
