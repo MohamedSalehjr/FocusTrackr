@@ -110,7 +110,7 @@ const Report = () => {
   return (
     <>
       <Dialog>
-        <DialogTrigger className={` `} > Report</DialogTrigger>
+        <DialogTrigger className="text-textcolor"  > Report</DialogTrigger>
         <DialogContent>
           <div className="flex p-8 gap-4">
             <Card className="w-1/2 mx-auto">

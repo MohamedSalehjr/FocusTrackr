@@ -29,7 +29,7 @@ export default function Nav(props) {
   const { isLoaded, userId, sessionId, getToken } = useAuth();
 
   return (
-    <nav className="bg-white border-gray-200 dark:bg-gray-900">
+    <nav className="bg-white border-gray-200 dark:bg-background">
       <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4">
         <Link to="/" className="flex items-center">
           <img alt="logo" src={logo} className="w-8" />
@@ -56,7 +56,7 @@ export default function Nav(props) {
 
           <Dialog>
             <DialogTrigger className="mt-2">
-              <ion-icon name="settings-outline"></ion-icon>
+              <ion-icon name="settings-outline" ></ion-icon>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
@@ -65,13 +65,13 @@ export default function Nav(props) {
                   <div className="flex flex-wrap -mx-3 mb-6 mt-4">
                     <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                       <label
-                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                        className="block uppercase tracking-wide text-textsub text-xs font-bold mb-2"
                         for="grid-first-name"
                       >
                         Pomodoro
                       </label>
                       <input
-                        className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                        className="appearance-none block w-full bg-gray-200 dark:bg-black text-textsub border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                         id="grid-first-name"
                         type="number"
                         placeholder={formatTime(pomodoro)}
@@ -79,13 +79,13 @@ export default function Nav(props) {
                     </div>
                     <div className="w-full md:w-1/3 px-3">
                       <label
-                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                        className="block uppercase tracking-wide text-textsub  text-xs font-bold mb-2"
                         for="grid-last-name"
                       >
                         Short Break
                       </label>
                       <input
-                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        className="appearance-none block w-full bg-gray-200 dark:bg-black text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         id="grid-last-name"
                         type="number"
                         placeholder={formatTime(shortBreak)}
@@ -94,13 +94,13 @@ export default function Nav(props) {
                     </div>
                     <div className="w-full md:w-1/3 px-3">
                       <label
-                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                        className="block uppercase tracking-wide text-textsub text-xs font-bold mb-2"
                         for="grid-last-name"
                       >
                         Long Break
                       </label>
                       <input
-                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        className="appearance-none block w-full dark:bg-black bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         id="grid-last-name"
                         type="number"
                         placeholder={formatTime(longBreak)}

@@ -20,11 +20,12 @@ module.exports = {
       colors: {
         background: "var(--background)",
         textcolor: "var(--text)",
+        textsub: "var(--textsub)",
         tabbg: "var(--tabbg)",
         buttonbg: "var(--buttonbg)",
         buttontxt: "var(--buttontxt)",
         textsecondary: "var(--textsecondary)",
-        border: "var(--var(--border))"
+        bordercolor: "var(--var(--bordercolor))"
       },
       keyframes: {
         "accordion-down": {

@@ -131,7 +131,7 @@ export default function HomePage() {
 
 
   return (
-    <div className="mb-20 flex flex-col items-center">
+    <div className="bg-background mb-20 flex flex-col items-center">
       <Tabs
         defaultValue="pomodoro"
         className="w-[400px] mx-auto mt-20 flex flex-col"

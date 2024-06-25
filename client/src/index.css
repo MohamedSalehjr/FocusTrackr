@@ -9,15 +9,25 @@
   --buttonbg: #020617;
   --buttontxt: #fff;
   --textsecondary: #64758B;
-  --border: #E2E8F0;
+  --textsub: #374151;
+  --bordercolor: #E2E8F0;
+
+  ion-icon {
+    color: #000;
+  }
 }
 
 .dark {
-  --background: #ffffff;
+  --background: #09090B;
   --text: #fff;
   --tabbg: #F1F5F9;
   --buttonbg: #020617;
   --buttontxt: #fff;
   --textsecondary: #64758B;
-  --border: #E2E8F0;
+  --bordercolor: #27272A;
+  --textsub: #A1A1AA;
+
+  ion-icon {
+    color: #fff;
+  }
 }
