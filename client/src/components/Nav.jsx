@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { PomodoroContext } from "../PomodoroContext.jsx";
 import { formatTime } from "../pages/HomePage.jsx";
 import Report from "./Report.jsx";
@@ -15,6 +15,7 @@ import {
   DialogTrigger,
 } from "../../components/ui/dialog";
 import { UserButton } from "@clerk/clerk-react";
+import { document } from "postcss";
 
 export default function Nav(props) {
   const {
@@ -27,6 +28,41 @@ export default function Nav(props) {
     changeLongBreak,
   } = useContext(PomodoroContext);
   const { isLoaded, userId, sessionId, getToken } = useAuth();
+  const [theme, setTheme] = useState(false);
+
+  // const themeSwitch = () => {
+  //   if (localStorage.getItem("theme") == "dark") {
+  //     // document.querySelectorAll("body");
+  //     console.log(document.querySelector("#bod"))
+  //     localStorage.setItem("theme", "light");
+  //     setTheme(true);
+  //     return;
+  //   }
+  //   document.querySelector("body").remove("light");
+  //   document.querySelector("body").add("dark");
+  //   localStorage.setItem("theme", "dark")
+  //   setTheme(false);
+  // }
+  //
+  // useEffect(() => {
+  //   if (localStorage.getItem("theme") == "dark") {
+  //     // document.querySelectorAll("body");
+  //     document.body.classList.remove("dark")
+  //     document.body.classList.add("light")
+  //     localStorage.setItem("theme", "light");
+  //     setTheme(true);
+  //     return;
+  //   } else {
+  //     document.body.classList.remove("light");
+  //     document.body.classList.add("dark");
+  //     localStorage.setItem("theme", "dark")
+  //     setTheme(false);
+  //   }
+  // }, [theme]);
+  //
+  const changeTheme = () => {
+    setTheme(!theme)
+  }
 
   return (
     <nav className="bg-white border-gray-200 dark:bg-background">
@@ -37,8 +73,8 @@ export default function Nav(props) {
             PomoTrackr
           </span>
         </Link>
-        <div className="flex items-center gap-4">
-          {console.log(props.signedIn)}
+        <div className="flex items-center gap-3">
+          {/* {console.log(props.signedIn)} */}
           {!props.signedIn && (
             <Link
               to="/sign-in"
@@ -112,11 +148,18 @@ export default function Nav(props) {
               </DialogHeader>
             </DialogContent>
           </Dialog>
+          <button onClick={props.darkmodetoggle} className=" mt-2">
+            {
+              props.toggle && <ion-icon name="moon-outline"></ion-icon>
+            }
+            {
+              !props.toggle && <ion-icon name="sunny-outline"></ion-icon>}
+          </button>
+
+
           <div>
             <UserButton afterSignOutUrl="/" />
           </div>
-
-
         </div>
       </div>
     </nav>
