@@ -30,40 +30,6 @@ export default function Nav(props) {
   const { isLoaded, userId, sessionId, getToken } = useAuth();
   const [theme, setTheme] = useState(false);
 
-  // const themeSwitch = () => {
-  //   if (localStorage.getItem("theme") == "dark") {
-  //     // document.querySelectorAll("body");
-  //     console.log(document.querySelector("#bod"))
-  //     localStorage.setItem("theme", "light");
-  //     setTheme(true);
-  //     return;
-  //   }
-  //   document.querySelector("body").remove("light");
-  //   document.querySelector("body").add("dark");
-  //   localStorage.setItem("theme", "dark")
-  //   setTheme(false);
-  // }
-  //
-  // useEffect(() => {
-  //   if (localStorage.getItem("theme") == "dark") {
-  //     // document.querySelectorAll("body");
-  //     document.body.classList.remove("dark")
-  //     document.body.classList.add("light")
-  //     localStorage.setItem("theme", "light");
-  //     setTheme(true);
-  //     return;
-  //   } else {
-  //     document.body.classList.remove("light");
-  //     document.body.classList.add("dark");
-  //     localStorage.setItem("theme", "dark")
-  //     setTheme(false);
-  //   }
-  // }, [theme]);
-  //
-  const changeTheme = () => {
-    setTheme(!theme)
-  }
-
   return (
     <nav className="bg-white border-gray-200 dark:bg-background">
       <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4">
@@ -78,7 +44,7 @@ export default function Nav(props) {
           {!props.signedIn && (
             <Link
               to="/sign-in"
-              className="block py-2 pl-3 pr-4 text-textcolor rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0  "
+              className="block  text-textcolor rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0  "
             >
               Login
             </Link>
