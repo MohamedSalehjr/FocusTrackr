@@ -1,8 +1,5 @@
 # PomoTrackr
 
-
-<span style="color: red;">**Note: This project has been decommissioned and is no longer maintained.**</span>
-
 ### **Note: This project has been decommissioned and is no longer maintained.**
 
 
