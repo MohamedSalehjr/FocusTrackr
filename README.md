@@ -1,10 +1,10 @@
 # PomoTrackr
 
-<<<<<<< HEAD
+
 <span style="color: red;">**Note: This project has been decommissioned and is no longer maintained.**</span>
-=======
+
 ### **Note: This project has been decommissioned and is no longer maintained.**
->>>>>>> cda8fa65f3cde3aed5cf5e6ab92573a2d278188d
+
 
 Welcome to **PomoTrackr**, a minimal pomodoro timer web application designed to enhance your productivity by keeping you focused. The app uses the popular Pomodoro Technique, breaking down work into intervals, traditionally 25 minutes in length, separated by short breaks.
 
