@@ -7,6 +7,12 @@ Welcome to **PomoTrackr**, a minimal pomodoro timer web application designed to 
 - **Pomodoro Timer**: Set your timer to work for 25 minutes, followed by a 5-minute break.
 - **Theme Toggling**: Switch between light and dark mode to suit your preference or time of day.
 - **Progress Tracking**: Gamify your productivity with a colored grid that fills up as you complete more pomodoro cycles.
+  
+### Screenshots
+<img width="1728" alt="Main Page" src="https://github.com/user-attachments/assets/788c8131-bb0a-4d70-9048-11c398ebe49b">
+<img width="1173" alt="Stats" src="https://github.com/user-attachments/assets/e2911dae-f114-4db1-abae-aa7486e2defb">
+<img width="1134" alt="Settings" src="https://github.com/user-attachments/assets/ce21b603-4f7a-47f2-83fc-3c1b2d08b5cd">
+
 
 ## How It Works
 
@@ -22,10 +28,5 @@ To get started with PomoTrackr, simply visit our website and sign up for an acco
 ## Customization
 
 - **Dark Mode**: Enable dark mode from the settings or toggle it directly from the main interface.
-- **Sound Notifications**: Choose to be alerted by a sound when your session ends.
 
-## Privacy and Terms
 
-We value your privacy. Please review our [Privacy Policy](/privacy) and [Terms and Conditions](/toc) to understand how we protect and use your data.
-
-Thank you for choosing PomoTrackr to enhance your productivity and focus!
